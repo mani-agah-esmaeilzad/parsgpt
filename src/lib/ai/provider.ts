@@ -54,6 +54,7 @@ export async function streamChatCompletion(args: StreamArgs) {
     const errorText = await response.text();
     throw new Error(errorText || `AI provider error (${response.status})`);
   }
+  const responseBody = response.body;
 
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
@@ -123,7 +124,7 @@ export async function streamChatCompletion(args: StreamArgs) {
       });
 
       try {
-        const reader = response.body.getReader();
+        const reader = responseBody.getReader();
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
