@@ -71,9 +71,6 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
-    authorized({ auth }) {
-      return !!auth?.user;
-    },
   },
   secret: process.env.NEXTAUTH_SECRET,
   trustHost: true,
