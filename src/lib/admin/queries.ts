@@ -180,8 +180,8 @@ export async function getUsersWithStats({
     }),
   ]);
 
-  const totalsMap = new Map(usageAll.map((row) => [row.userId, row._sum.totalTokens ?? 0]));
-  const windowMap = new Map(usageWindow.map((row) => [row.userId, row._sum.totalTokens ?? 0]));
+  const totalsMap = new Map(usageAll.map((row) => [row.userId, row._sum?.totalTokens ?? 0]));
+  const windowMap = new Map(usageWindow.map((row) => [row.userId, row._sum?.totalTokens ?? 0]));
 
   return users.map((user) => ({
     id: user.id,
