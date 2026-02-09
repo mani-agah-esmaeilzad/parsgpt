@@ -169,11 +169,13 @@ export async function getUsersWithStats({
     }),
     prisma.usageDaily.groupBy({
       by: ["userId"],
+      orderBy: { userId: "asc" },
       _sum: { totalTokens: true },
     }),
     prisma.usageDaily.groupBy({
       by: ["userId"],
       where: { date: { gte: since } },
+      orderBy: { userId: "asc" },
       _sum: { totalTokens: true },
     }),
   ]);
