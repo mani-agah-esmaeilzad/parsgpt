@@ -72,8 +72,8 @@ export async function streamChatCompletion(args: StreamArgs) {
 
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
-      const parser = createParser((event) => {
-        if (event.type !== "event") return;
+      const parser = createParser({
+        onEvent(event) {
         if (event.data === "[DONE]") {
           const fullContent = assistantChunks.join("");
           const promptEstimation = countTokensForMessages(messages, model);
@@ -115,6 +115,11 @@ export async function streamChatCompletion(args: StreamArgs) {
           controller.error(error);
           controllerReject?.(error);
         }
+      },
+        onError(error) {
+          controller.error(error);
+          controllerReject?.(error);
+        },
       });
 
       try {
