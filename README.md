@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ParsGPT
 
-## Getting Started
+ParsGPT یک وب‌اپلیکیشن فول‌استک شبیه تجربه ChatGPT است که به صورت پیش‌فرض رابط فارسی راست‌به‌چپ دارد و تجربه کامل مدیریت GPT سفارشی، گفت‌وگو و پنل ادمین را ارائه می‌کند. پروژه با Next.js (App Router)، Prisma، TailwindCSS + shadcn/ui و احراز هویت NextAuth ساخته شده و برای استقرار روی Vercel طراحی شده است.
 
-First, run the development server:
+## ویژگی‌ها
+- رابط چت الهام گرفته از ChatGPT با سایدبار پایدار، نوار بالا و ادیتور چسبان.
+- پشتیبانی از GPT های سفارشی شامل برچسب‌ها، دسته‌بندی، پرامپت سیستم و پرامپت‌های شروع.
+- ذخیره‌سازی کامل گفت‌وگو، پیام‌ها، کاربر و گزارش مصرف توکن در پایگاه داده.
+- استریم پاسخ مدل به‌صورت توکن به توکن و امکان توقف/بازتولید پاسخ.
+- رابط اکسپلورر GPT ها، صفحه جزئیات و شروع سریع مکالمه.
+- پنل ادمین شامل داشبورد، مدیریت کاربران (تغییر نقش)، CRUD GPT، گزارش‌های مصرف و خروجی CSV.
+- احراز هویت ایمیل/رمز عبور با نقش USER/ADMIN و محافظت سمت سرور.
+- نرخ‌دهی ساده داخلی با TODO برای انتقال به Redis/Upstash.
+- UI فارسی RTL به جز بلوک‌های کد (LTR) با فونت Vazirmatn و پشتیبانی حالت روشن/تاریک.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## پیش‌نیازها
+- Node.js 20+
+- pnpm 8+
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## راه‌اندازی محلی
+1. **نصب وابستگی‌ها**
+   ```bash
+   pnpm install
+   ```
+2. **تهیه متغیرهای محیطی**
+   - فایل `.env.example` را به `.env` کپی کرده و مقداردهی کنید (به‌خصوص `AI_API_KEY` و `NEXTAUTH_SECRET`).
+   - برای توسعه از SQLite استفاده می‌شود (`DATABASE_URL="file:./dev.db"`).
+3. **اجرای مایگریشن**
+   ```bash
+   pnpm prisma:migrate
+   ```
+   > اگر از PostgreSQL استفاده می‌کنید ابتدا متغیرهای `DATABASE_URL` و `PRISMA_SCHEMA=prisma/schema.postgresql.prisma` را تنظیم کرده و سپس `pnpm prisma:deploy` را اجرا کنید.
+4. **اجرای Seed**
+   ```bash
+   pnpm prisma:seed
+   ```
+   این مرحله یک کاربر ادمین می‌سازد: `admin@parsgpt.local / Admin123!`
+5. **اجرای سرور توسعه**
+   ```bash
+   pnpm dev
+   ```
+   برنامه روی `http://localhost:3000` در دسترس است.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## اسکریپت‌های npm
+| اسکریپت | توضیح |
+| --- | --- |
+| `pnpm dev` | اجرای سرور توسعه Next.js |
+| `pnpm build` | بیلد production |
+| `pnpm start` | اجرای بیلد production |
+| `pnpm lint` | اجرای `next lint` |
+| `pnpm prisma:migrate` | مایگریشن SQLite محلی (`prisma migrate dev --url file:./dev.db`) |
+| `pnpm prisma:deploy` | مایگریشن Postgres در محیط استقرار |
+| `pnpm prisma:generate` | تولید کلاینت Prisma |
+| `pnpm prisma:seed` | اجرای seed (`tsx prisma/seed.ts`) |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## استقرار روی Vercel
+1. متغیرهای محیطی زیر را در پروژه Vercel تنظیم کنید:
+   - `DATABASE_URL` (Vercel Postgres)
+   - `NEXTAUTH_URL` (مثلاً `https://your-app.vercel.app`)
+   - `NEXTAUTH_SECRET` (رشته تصادفی امن)
+   - `NEXT_PUBLIC_APP_URL`
+   - `AI_BASE_URL` (در صورت نیاز)
+   - `AI_API_KEY`
+2. قبل از استقرار در محیط واقعی، مایگریشن‌های Postgres را اعمال کنید:
+   ```bash
+   DATABASE_URL="postgres://..." PRISMA_SCHEMA=prisma/schema.postgresql.prisma pnpm prisma migrate deploy
+   ```
+3. سپس `pnpm build` روی Vercel اجرا می‌شود.
 
-## Learn More
+## حساب ادمین پیش‌فرض
+- ایمیل: `admin@parsgpt.local`
+- رمز عبور: `Admin123!`
+- پس از ورود می‌توانید نقش کاربران و GPT ها را از پنل ادمین تغییر دهید.
 
-To learn more about Next.js, take a look at the following resources:
+## پیکربندی AI Provider
+- به صورت پیش‌فرض API سازگار با OpenAI را از `AI_BASE_URL` استفاده می‌کند (`https://api.openai.com/v1`).
+- کلید را در `AI_API_KEY` قرار دهید.
+- اگر ارائه‌دهنده شما usage را در استریم ارسال نمی‌کند، سامانه با استفاده از `js-tiktoken` تعداد توکن را تخمین می‌زند و وضعیت `tokensEstimated` را ثبت می‌کند.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## نکات توسعه
+- ساختار پوشه‌ها بر پایه App Router است و تنها `AppShell` مسئول لایه‌بندی و سایدبار است (قانون Single AppShell).
+- برای افزودن GPT جدید از پنل ادمین استفاده کنید یا با Prisma رکورد بسازید.
+- در صورت استفاده از پایگاه داده دیگر (مثل Postgres) تنها کافیست `DATABASE_URL` و `PRISMA_SCHEMA` را تنظیم کنید. مابقی کد به نوع DB وابستگی خاصی ندارد (از JSON string برای آرایه‌ها استفاده شده تا SQLite نیز پشتیبانی شود).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+موفق باشید! 🌱

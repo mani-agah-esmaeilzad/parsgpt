@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum MessageRole {
+  user
+  assistant
+  system
+}
+
+enum GptVisibility {
+  PUBLIC
+  PRIVATE
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  name          String?
+  passwordHash  String
+  role          Role           @default(USER)
+  createdAt     DateTime       @default(now())
+  conversations Conversation[]
+  usageDaily    UsageDaily[]
+  auditLogs     AdminAudit[]   @relation("AdminAuditActor")
+}
+
+model GPT {
+  id              String         @id @default(cuid())
+  name            String
+  slug            String         @unique
+  description     String
+  icon            String?
+  tags            String?
+  category        String?
+  systemPrompt    String
+  starterPrompts  String?
+  model           String
+  temperature     Float          @default(0.7)
+  topP            Float          @default(1)
+  maxOutputTokens Int?
+  visibility      GptVisibility  @default(PUBLIC)
+  enabled         Boolean        @default(true)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  conversations   Conversation[]
+  usageDaily      UsageDaily[]
+}
+
+model Conversation {
+  id        String    @id @default(cuid())
+  userId    String
+  gptId     String
+  title     String    @default("گفتگو جدید")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  gpt       GPT       @relation(fields: [gptId], references: [id], onDelete: Cascade)
+  messages  Message[]
+
+  @@index([userId])
+  @@index([gptId])
+}
+
+model Message {
+  id               String       @id @default(cuid())
+  conversationId   String
+  role             MessageRole
+  content          String
+  promptTokens     Int?
+  completionTokens Int?
+  totalTokens      Int?
+  modelUsed        String?
+  provider         String?
+  tokensEstimated  Boolean      @default(false)
+  createdAt        DateTime     @default(now())
+  conversation     Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
+}
+
+model UsageDaily {
+  id               String  @id @default(cuid())
+  date             String
+  userId           String?
+  gptId            String?
+  promptTokens     Int     @default(0)
+  completionTokens Int     @default(0)
+  totalTokens      Int     @default(0)
+  user             User?   @relation(fields: [userId], references: [id])
+  gpt              GPT?    @relation(fields: [gptId], references: [id])
+
+  @@unique([date, userId, gptId])
+  @@index([date])
+}
+
+model AdminAudit {
+  id          String   @id @default(cuid())
+  actorUserId String?
+  actionType  String
+  entityType  String
+  entityId    String?
+  metadata    String?
+  createdAt   DateTime @default(now())
+  actor       User?    @relation("AdminAuditActor", fields: [actorUserId], references: [id])
+}
