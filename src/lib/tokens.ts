@@ -1,9 +1,9 @@
 import { encodingForModel } from "js-tiktoken";
 import type { TiktokenModel } from "js-tiktoken";
 
-export function countTokens(text: string, model: TiktokenModel = "gpt-4o-mini") {
+export function countTokens(text: string, model: TiktokenModel | string = "gpt-4o-mini") {
   try {
-    const encoding = encodingForModel(model);
+    const encoding = encodingForModel(model as TiktokenModel);
     const tokens = encoding.encode(text).length;
     encoding.free();
     return { tokens, estimated: false } as const;
@@ -14,7 +14,7 @@ export function countTokens(text: string, model: TiktokenModel = "gpt-4o-mini") 
 
 export function countTokensForMessages(
   messages: { role: string; content: string }[],
-  model: TiktokenModel = "gpt-4o-mini",
+  model: TiktokenModel | string = "gpt-4o-mini",
 ) {
   const joined = messages.map((m) => `${m.role}: ${m.content}`).join("\n");
   return countTokens(joined, model);
