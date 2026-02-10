@@ -10,7 +10,7 @@ import type { UiConversation } from "@/types/chat";
 export const dynamic = "force-dynamic";
 
 interface ChatPageProps {
-  searchParams: { conversationId?: string; gptId?: string };
+  searchParams: { conversationId?: string; gptId?: string; new?: string };
 }
 
 export const metadata: Metadata = {
@@ -38,6 +38,7 @@ export default async function ChatPage({ searchParams }: ChatPageProps) {
   const availableGpts = availableGptsRaw.map(mapGpt);
 
   const conversationId = searchParams.conversationId;
+  const isNewChat = searchParams.new === "1";
   const requestedGptId = searchParams.gptId;
 
   let conversationRecord = conversationId
@@ -47,7 +48,7 @@ export default async function ChatPage({ searchParams }: ChatPageProps) {
       })
     : null;
 
-  if (!conversationRecord) {
+  if (!conversationRecord && !isNewChat) {
     conversationRecord = await prisma.conversation.findFirst({
       where: { userId },
       orderBy: { updatedAt: "desc" },

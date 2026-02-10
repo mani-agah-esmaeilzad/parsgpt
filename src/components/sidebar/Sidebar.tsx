@@ -82,7 +82,7 @@ export function Sidebar({ isMobile, isCollapsed: propCollapsed, onNavigate }: Si
     // Just navigate to /chat to start fresh (or empty state)
     // If backend requires creating one immediately, logic might differ, 
     // but usually /chat is "New Chat" state.
-    router.push("/chat");
+    router.push("/chat?new=1");
     onNavigate?.();
   };
 
