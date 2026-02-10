@@ -83,6 +83,7 @@ export function Sidebar({ isMobile, isCollapsed: propCollapsed, onNavigate }: Si
     // If backend requires creating one immediately, logic might differ, 
     // but usually /chat is "New Chat" state.
     router.push("/chat?new=1");
+    router.refresh();
     onNavigate?.();
   };
 
@@ -93,7 +94,8 @@ export function Sidebar({ isMobile, isCollapsed: propCollapsed, onNavigate }: Si
       await fetch(`/api/conversations/${id}`, { method: "DELETE" });
       await mutate();
       if (activeConversationId === id) {
-        router.push("/chat");
+        router.push("/chat?new=1");
+        router.refresh();
       }
       toast.success("گفتگو حذف شد");
     } catch {

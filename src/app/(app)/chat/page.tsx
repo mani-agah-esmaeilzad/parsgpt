@@ -56,6 +56,10 @@ export default async function ChatPage({ searchParams }: ChatPageProps) {
     });
   }
 
+  if (isNewChat) {
+    conversationRecord = null;
+  }
+
   const initialConversation: UiConversation | null = conversationRecord
     ? {
         id: conversationRecord.id,
