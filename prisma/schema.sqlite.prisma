@@ -18,6 +18,12 @@ enum GptVisibility {
   PRIVATE
 }
 
+enum SubscriptionPlan {
+  FREE
+  PLUS
+  PRO
+}
+
 datasource db {
   provider = "sqlite"
 }
@@ -28,6 +34,7 @@ model User {
   name          String?
   passwordHash  String
   role          Role           @default(USER)
+  subscriptionPlan SubscriptionPlan @default(FREE)
   createdAt     DateTime       @default(now())
   conversations Conversation[]
   usageDaily    UsageDaily[]
