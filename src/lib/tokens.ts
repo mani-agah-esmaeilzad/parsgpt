@@ -5,8 +5,9 @@ export function countTokens(text: string, model: TiktokenModel | string = "gpt-4
   try {
     const encoding = encodingForModel(model as TiktokenModel);
     const tokens = encoding.encode(text).length;
-    if (typeof (encoding as { free?: () => void }).free === "function") {
-      (encoding as { free: () => void }).free();
+    const maybeFree = (encoding as unknown as { free?: () => void }).free;
+    if (typeof maybeFree === "function") {
+      maybeFree();
     }
     return { tokens, estimated: false } as const;
   } catch {
