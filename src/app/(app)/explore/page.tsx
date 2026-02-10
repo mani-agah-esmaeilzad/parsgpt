@@ -24,7 +24,7 @@ export default async function ExplorePage() {
   });
 
   return (
-    <div className="flex h-full flex-col overflow-hidden">
+    <div className="flex h-full flex-1 min-h-0 flex-col overflow-y-auto">
       <PageHeader title="کاوش GPT ها" description="پیکربندی‌ها و دستیارهای آماده استفاده" />
       <div className="mx-auto w-full max-w-4xl px-4 py-6 md:px-10">
         <ExploreClient gpts={gpts.map(mapGpt)} />
