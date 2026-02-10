@@ -27,12 +27,15 @@ interface StreamArgs {
 
 export async function streamChatCompletion(args: StreamArgs) {
   const { messages, model, temperature, topP, maxOutputTokens, signal } = args;
-  const apiKey = process.env.AI_API_KEY;
+  const apiKey = process.env.LLM_API_KEY ?? process.env.AI_API_KEY;
   if (!apiKey) {
-    throw new Error("AI_API_KEY is not configured");
+    throw new Error("LLM_API_KEY (or AI_API_KEY) is not configured");
   }
 
-  const baseUrl = process.env.AI_BASE_URL?.replace(/\/$/, "") ?? "https://api.openai.com/v1";
+  const baseUrl =
+    process.env.LLM_BASE_URL?.replace(/\/$/, "") ??
+    process.env.AI_BASE_URL?.replace(/\/$/, "") ??
+    "https://api.openai.com/v1";
   const response = await fetch(`${baseUrl}/chat/completions`, {
     method: "POST",
     headers: {
