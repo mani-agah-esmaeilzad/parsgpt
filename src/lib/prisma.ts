@@ -24,8 +24,8 @@ function resolvePgAdapter() {
   return new PrismaPg(pool);
 }
 
-const logLevels =
-  process.env.NODE_ENV === "development" ? (["query", "warn", "error"] as const) : (["warn", "error"] as const);
+const logLevels: Array<"query" | "warn" | "error"> =
+  process.env.NODE_ENV === "development" ? ["query", "warn", "error"] : ["warn", "error"];
 
 const adapter = resolvePgAdapter();
 
