@@ -3,8 +3,8 @@ import { format } from "date-fns";
 import { prisma } from "@/lib/prisma";
 
 interface UsageParams {
-  userId?: string | null;
-  gptId?: string | null;
+  userId: string;
+  gptId: string;
   promptTokens: number;
   completionTokens: number;
   totalTokens: number;
@@ -23,8 +23,8 @@ export async function recordDailyUsage({
     where: {
       date_userId_gptId: {
         date,
-        userId: userId ?? null,
-        gptId: gptId ?? null,
+        userId,
+        gptId,
       },
     },
     update: {

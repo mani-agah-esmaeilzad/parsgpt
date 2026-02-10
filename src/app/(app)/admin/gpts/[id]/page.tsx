@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { GptForm } from "@/components/admin/GptForm";
 import { getAdminGptById } from "@/lib/admin/queries";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   params: { id: string };
 }

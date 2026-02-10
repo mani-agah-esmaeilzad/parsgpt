@@ -1,6 +1,8 @@
 import { UserTable } from "@/components/admin/UserTable";
 import { getUsersWithStats } from "@/lib/admin/queries";
 
+export const dynamic = "force-dynamic";
+
 interface UsersPageProps {
   searchParams: { q?: string; days?: string };
 }

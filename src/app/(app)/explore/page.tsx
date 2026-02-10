@@ -7,6 +7,8 @@ import { mapGpt } from "@/lib/gpts";
 import { ExploreClient } from "@/components/explore/ExploreClient";
 import { PageHeader } from "@/components/layout/PageHeader";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "ParsGPT | کاوش GPT ها",
 };

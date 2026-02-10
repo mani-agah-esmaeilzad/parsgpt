@@ -1,6 +1,8 @@
 import { GptTable } from "@/components/admin/GptTable";
 import { getAdminGpts } from "@/lib/admin/queries";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminGptsPage() {
   const gpts = await getAdminGpts();
   return (

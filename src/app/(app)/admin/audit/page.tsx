@@ -6,6 +6,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { getAdminAuditLogs } from "@/lib/admin/queries";
 import { cn } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+
 interface AuditPageProps {
   searchParams: { actionType?: string };
 }

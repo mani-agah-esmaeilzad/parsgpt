@@ -1,6 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getAdminSummary } from "@/lib/admin/queries";
 
+export const dynamic = "force-dynamic";
+
 const STAT_LABELS = [
   { key: "users", label: "کاربران" },
   { key: "gpts", label: "GPT ها" },

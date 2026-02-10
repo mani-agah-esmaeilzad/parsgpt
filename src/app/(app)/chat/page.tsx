@@ -7,6 +7,8 @@ import { mapGpt } from "@/lib/gpts";
 import { ChatView } from "@/components/chat/ChatView";
 import type { UiConversation } from "@/types/chat";
 
+export const dynamic = "force-dynamic";
+
 interface ChatPageProps {
   searchParams: { conversationId?: string; gptId?: string };
 }

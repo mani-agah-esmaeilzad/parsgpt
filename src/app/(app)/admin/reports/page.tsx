@@ -1,6 +1,8 @@
 import { AdminReports } from "@/components/admin/AdminReports";
 import { getAdminSummary, getDailyUsage, getUsageByUser, getUsageByGpt } from "@/lib/admin/queries";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminReportsPage() {
   const [summary, daily, usageByUser, usageByGpt] = await Promise.all([
     getAdminSummary(),
