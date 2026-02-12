@@ -41,7 +41,7 @@ export function ChatComposer({ onSend, onStop, onRegenerate, isStreaming, canReg
   };
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 md:px-6">
+    <div className="mx-auto w-full max-w-3xl px-2 md:px-4 pb-safe">
       <div className="relative flex flex-col items-center justify-center gap-2">
         {/* Regererate / Stop Controls (Optional helper buttons above input) */}
         {(isStreaming || canRegenerate) && (
@@ -62,44 +62,46 @@ export function ChatComposer({ onSend, onStop, onRegenerate, isStreaming, canReg
           </div>
         )}
 
-        <div className="relative flex w-full items-end gap-2 rounded-2xl border bg-background p-2 shadow-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring ring-1 ring-border/50">
-          <Textarea
-            dir="rtl"
-            ref={textareaRef}
-            placeholder="پیام خود را به ParsGPT بفرستید..."
-            className="min-h-[24px] max-h-[200px] w-full resize-none border-0 bg-transparent p-3 shadow-none focus-visible:ring-0 text-base py-[10px]"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            onKeyDown={handleKeyDown}
-            disabled={isStreaming}
-          />
+        <div className="relative flex w-full items-end">
           <TooltipProvider delayDuration={0}>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
                   size="icon"
                   className={cn(
-                    "mb-1 h-8 w-8 rounded-lg transition-all",
-                    value.trim() ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                    "m-1.5 size-12 rounded-full transition-all bg-black text-white dark:bg-white dark:text-black",
                   )}
                   disabled={!value.trim() || isStreaming}
                   onClick={handleSubmit}
                 >
                   {isStreaming ? (
-                    <Square className="h-3 w-3 fill-current" />
+                    <Square className="size-4 fill-current" />
                     // Usually "stop" is here if we want integrated stop. 
                     // But ChatGPT has the separate stop button above or integrated. 
                     // We'll keep send button disabled while streaming.
                   ) : (
-                    <ArrowUp className="h-5 w-5" />
+                    <ArrowUp className="size-6" />
                   )}
                 </Button>
               </TooltipTrigger>
               <TooltipContent>ارسال پیام</TooltipContent>
             </Tooltip>
           </TooltipProvider>
+
+          <div className="relative flex w-full items-end rounded-3xl border-0 md:rounded-4xl bg-[#F2F2F2] md:bg-white md:border md:border-neutral-400/25 dark:md:border-transparent md:shadow-md dark:bg-[#303030] backdrop-blur-3xl transition-all pe-1.5">
+            <Textarea
+              dir="rtl"
+              ref={textareaRef}
+              placeholder="پیام خود را به چت‌پارس بفرستید..."
+              className="max-h-[200px] w-full resize-none border-0 bg-transparent px-5 shadow-none focus-visible:ring-0 text-base"
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              onKeyDown={handleKeyDown}
+              disabled={false}
+            />
+          </div>
         </div>
-        <div className="text-center text-xs text-muted-foreground/50 py-2">
+        <div className="text-center text-[10px] text-muted-foreground/50 pb-2">
           ParsGPT ممکن است اشتباه کند. اطلاعات مهم را بررسی کنید.
         </div>
       </div>

@@ -12,8 +12,8 @@ import AssistantsList from "@/components/layout/AssistantsList"
 import ShinyButton from "@/components/layout/ShinyButton"
 
 const websiteName = "چت‌پارس"
-const websiteTaglines = "Domain-Specific LLM"
-const websiteDescription = "دستیارهای هوش مصنوعی فارسی"
+const websiteTaglines = "Chatpars GPTs"
+const websiteDescription = "دستیارهای تخصصی هوش مصنوعی"
 
 const typingAnimationQueries: string[] = [
   "استراتژی رشد برای کسب‌وکارهای کوچک صنعتی", // صنعتی
@@ -109,16 +109,17 @@ export default function Home() {
         <div className="flex items-center gap-2">
           <Link
             href="/chat"
-            className="rounded-full transition-colors flex items-center justify-center text-white dark:text-black bg-purple-600 gap-2 hover:bg-purple-600/75 active:bg-purple-600/75 font-medium text-xs sm:text-sm h-9 px-4 sm:w-auto"
+            className="rounded-full transition-colors flex items-center justify-center text-white dark:text-black bg-[#9138C9] gap-2 hover:bg-[#9138C9]/75 active:bg-[#9138C9]/75 font-medium text-xs sm:text-sm h-9 px-4 sm:w-auto"
           >
             شروع گفتگو
           </Link>
         </div>
       </div>
+
       <div className="px-3 sm:p-20 w-full overflow-hidden">
         <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start max-w-fit mx-auto">
           <h1 className="text-6xl md:text-8xl font-black">{websiteName}</h1>
-          <ol className="font-medium list-inside list-disc text-sm md:text-md text-center sm:text-right">
+          <ol className="list-inside list-disc text-sm md:text-md text-center sm:text-right">
             <li className="mb-2 tracking-[-.01em]">{websiteDescription}</li>
             <li className="tracking-[-.01em]">{websiteTaglines}</li>
           </ol>
@@ -144,7 +145,7 @@ export default function Home() {
           <button
             onClick={handleStartChat}
             disabled={!inputValue.trim()}
-            className="bg-purple-600/75 p-2.5 text-white rounded-full disabled:opacity-25"
+            className="bg-[#9138C9]/75 p-2.5 text-white rounded-full disabled:opacity-25"
           >
             <ArrowUp className="size-6" />
           </button>

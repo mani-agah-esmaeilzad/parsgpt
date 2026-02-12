@@ -5,26 +5,29 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 rounded-2xl text-sm font-medium transition-colors outline-none ring-0 disabled:pointer-events-none disabled:opacity-25 cursor-pointer",
   {
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+          "bg-[#9138C9] text-white md:hover:bg-[#9138C9]/75 active:bg-[#9138C9]/75",
         destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+          "bg-red-600 text-white md:hover:bg-red-700 active:bg-red-700",
         outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+          "border border-neutral-400/25 md:hover:bg-neutral-400/25 active:bg-neutral-400/25",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+          "bg-neutral-400/15 md:hover:bg-neutral-300/75 active:bg-neutral-300/75",
+        ghost:
+          "bg-transparent md:hover:bg-neutral-300/25 active:bg-neutral-300/25",
+        link:
+          "text-blue-600 underline-offset-0 md:hover:underline",
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: "h-10 px-4 py-2.5",
+        sm: "h-8 px-3",
+        lg: "h-12 px-8",
+        icon: "size-10 aspect-square p-2",
+        icon_lg: "size-12 aspect-square p-2",
       },
     },
     defaultVariants: {
@@ -36,7 +39,7 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   asChild?: boolean
 }
 

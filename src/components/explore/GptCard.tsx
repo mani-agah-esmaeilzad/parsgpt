@@ -13,7 +13,7 @@ interface GptCardProps {
 
 export function GptCard({ gpt }: GptCardProps) {
     return (
-        <Card className="group flex h-full flex-col overflow-hidden border-muted transition-all hover:border-primary/50 hover:shadow-md">
+        <Card className="group flex h-full flex-col overflow-hidden border-neutral-400/25 transition-all dark:shadow-none active:shadow-xl shadow-purple-400/25">
             <CardHeader className="pb-3">
                 <div className="mb-2 h-10 w-10 text-3xl">
                     {gpt.icon ?? "🤖"}
@@ -35,16 +35,16 @@ export function GptCard({ gpt }: GptCardProps) {
                     ))}
                 </div>
             </CardContent>
-            <CardFooter className="flex items-center gap-2 border-t bg-muted/20 p-3">
-                <Button asChild size="sm" className="flex-1 gap-2" variant="default">
+            <CardFooter className="flex items-center gap-2 border-t border-neutral-400/15 bg-neutral-400/15 p-3">
+                <Button asChild className="flex-1 gap-2 font-medium" variant="default">
                     <Link href={`/chat?gptId=${gpt.id}`}>
-                        <MessageSquare className="h-4 w-4" />
+                        <MessageSquare className="size-4" />
                         شروع گفتگو
                     </Link>
                 </Button>
-                <Button asChild size="sm" variant="ghost" className="px-2">
+                <Button asChild size="icon" variant="ghost" className="px-2 rounded-full">
                     <Link href={`/gpt/${gpt.slug}`}>
-                        <ArrowLeft className="h-4 w-4" />
+                        <ArrowLeft className="size-5" />
                     </Link>
                 </Button>
             </CardFooter>

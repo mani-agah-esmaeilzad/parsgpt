@@ -36,7 +36,14 @@ export default async function RootLayout({
 
   return (
     <html lang="fa" dir="rtl" suppressHydrationWarning>
-      <body className={`${vazirmatn.variable} font-sans`}>
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="apple-mobile-web-app-title" content="ChatPars" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      </head>
+      <body className={`${vazirmatn.variable}`}>
         <AuthProvider session={session}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}

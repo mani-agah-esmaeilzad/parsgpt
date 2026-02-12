@@ -9,18 +9,21 @@ import { MessageList } from "@/components/chat/MessageList";
 import { ChatComposer } from "@/components/chat/ChatComposer";
 import { EmptyState } from "@/components/chat/EmptyState";
 import { useConversations } from "@/hooks/use-conversations";
+import Introduction from "../introduction/section";
 
 interface ChatViewProps {
+  isUserAuthenticated?: boolean;
   initialConversation: UiConversation | null;
   availableGpts: UiGpt[];
   initialDraftGptId?: string;
 }
 
-export function ChatView({ initialConversation, availableGpts, initialDraftGptId }: ChatViewProps) {
+export function ChatView({ isUserAuthenticated, initialConversation, availableGpts, initialDraftGptId }: ChatViewProps) {
   const [conversation, setConversation] = useState<UiConversation | null>(initialConversation);
   const [messages, setMessages] = useState<UiMessage[]>(initialConversation?.messages ?? []);
   const [streamingMessage, setStreamingMessage] = useState<string | null>(null);
   const [isStreaming, setIsStreaming] = useState(false);
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [draftGptId, setDraftGptId] = useState(
     initialConversation?.gptId ?? initialDraftGptId ?? availableGpts[0]?.id ?? "",
@@ -246,6 +249,11 @@ export function ChatView({ initialConversation, availableGpts, initialDraftGptId
         />
       </div>
     </div>
+
+    // <Introduction
+    //   open={!!isUserAuthenticated && !isAuthenticating}
+    //   onClose={() => setIsAuthenticating(false)}
+    // />
   );
 }
 

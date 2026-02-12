@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 
 import { Input } from "@/components/ui/input";
 import { GptCard } from "@/components/explore/GptCard";
+import { cn } from "@/lib/utils";
 
 interface ExploreClientProps {
   gpts: UiGpt[];
@@ -38,21 +39,21 @@ export function ExploreClient({ gpts }: ExploreClientProps) {
   }, [gpts, query, selectedCategory]);
 
   return (
-    <div className="container mx-auto max-w-5xl space-y-8 py-8 md:py-12">
+    <div className="container mx-auto max-w-5xl space-y-6 py-6 md:py-12">
       {/* Header Section */}
       <div className="flex flex-col items-center text-center space-y-4">
         <h1 className="text-3xl font-bold tracking-tight md:text-4xl text-primary">
           اکتشاف GPT های سفارشی
         </h1>
-        <p className="text-lg text-muted-foreground max-w-2xl">
+        <p className="text-sm text-neutral-500 dark:text-neutral-300 max-w-2xl">
           بهترین دستیارهای هوش مصنوعی را برای کارهای روزمره، برنامه‌نویسی، و خلاقیت پیدا کنید.
         </p>
 
         {/* Search Bar */}
-        <div className="relative w-full max-w-lg mt-6">
+        <div className="relative w-full max-w-lg mt-2">
           <Search className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
           <Input
-            className="pr-10 h-12 rounded-full text-base shadow-sm"
+            className="pr-6 h-12 rounded-3xl md:rounded-4xl bg-[#F2F2F2] md:bg-white border-0 md:border md:border-neutral-400/25 dark:md:border-transparent md:shadow-md dark:bg-[#303030] backdrop-blur-3xl transition-all text-base shadow-sm"
             placeholder="جستجو در بین GPT ها..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -65,8 +66,10 @@ export function ExploreClient({ gpts }: ExploreClientProps) {
         <div className="flex flex-wrap justify-center gap-2">
           <Button
             variant={selectedCategory === null ? "default" : "outline"}
-            size="sm"
-            className="rounded-full"
+            className={cn(
+              selectedCategory === null ? "border-[#9138C9]" : "",
+              "rounded-full border"
+            )}
             onClick={() => setSelectedCategory(null)}
           >
             همه
@@ -75,8 +78,10 @@ export function ExploreClient({ gpts }: ExploreClientProps) {
             <Button
               key={cat}
               variant={selectedCategory === cat ? "default" : "outline"}
-              size="sm"
-              className="rounded-full"
+              className={cn(
+                selectedCategory === cat ? "border-[#9138C9]" : "",
+                "rounded-full border"
+              )}
               onClick={() => setSelectedCategory(cat)}
             >
               {cat}

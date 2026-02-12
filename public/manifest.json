@@ -1,0 +1,34 @@
+{
+  "name": "ChatPars",
+  "short_name": "ChatPars",
+  "description": "AI Chat Application",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon-120x120.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon-120x120-precomposed.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon-precomposed.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

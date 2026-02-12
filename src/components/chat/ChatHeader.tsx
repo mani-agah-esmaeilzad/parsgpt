@@ -57,16 +57,18 @@ export function ChatHeader({
   };
 
   return (
-    <div className="flex h-14 items-center justify-between gap-3 border-b bg-background px-4 md:px-6">
+    <div className="flex items-center justify-between gap-3 border-b border-neutral-400/25 bg-background px-4 md:px-6 pt-safe-10 pb-3">
       <div className="flex flex-1 items-center gap-3">
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden"
+          className='grid gap-1.5 p-4 py-3.5 rounded-lg cursor-pointer md:hidden'
           onClick={toggleSidebar}
         >
-          <Menu className="h-5 w-5" />
+          <div className='bg-black dark:bg-white rounded-full h-0.5 w-4' />
+          <div className='bg-black dark:bg-white rounded-full h-0.5 w-2' />
         </Button>
+
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold">
             {conversation?.title ?? "گفتگوی جدید"}

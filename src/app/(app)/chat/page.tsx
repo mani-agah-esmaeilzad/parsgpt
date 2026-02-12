@@ -10,7 +10,11 @@ import type { UiConversation } from "@/types/chat";
 export const dynamic = "force-dynamic";
 
 interface ChatPageProps {
-  searchParams: { conversationId?: string; gptId?: string; new?: string };
+  searchParams: Promise<{
+    conversationId?: string;
+    gptId?: string;
+    new?: string;
+  }>;
 }
 
 export const metadata: Metadata = {
@@ -20,60 +24,63 @@ export const metadata: Metadata = {
 export default async function ChatPage({ searchParams }: ChatPageProps) {
   const session = await getServerSession(authOptions);
 
-  if (!session?.user?.id) {
-    return null;
-  }
+  const { conversationId, gptId: requestedGptId, new: newParam } =
+    await searchParams;
 
-  const userId = session.user.id;
+  const isNewChat = newParam === "1";
 
-  const role = session.user.role;
+  let availableGpts = [];
+  let initialConversation: UiConversation | null = null;
 
-  const availableGptsRaw = await prisma.gPT.findMany({
-    where:
-      role === "ADMIN"
-        ? { enabled: true }
-        : { enabled: true, visibility: "PUBLIC" },
-    orderBy: { createdAt: "asc" },
-  });
-  const availableGpts = availableGptsRaw.map(mapGpt);
+  if (session?.user?.id) {
+    const userId = session.user.id;
+    const role = session.user.role;
 
-  const conversationId = searchParams.conversationId;
-  const isNewChat = searchParams.new === "1";
-  const requestedGptId = searchParams.gptId;
-
-  let conversationRecord = conversationId
-    ? await prisma.conversation.findFirst({
-      where: { id: conversationId, userId },
-      include: { gpt: true, messages: { orderBy: { createdAt: "asc" } } },
-    })
-    : null;
-
-  if (!conversationRecord && !isNewChat) {
-    conversationRecord = await prisma.conversation.findFirst({
-      where: { userId },
-      orderBy: { updatedAt: "desc" },
-      include: { gpt: true, messages: { orderBy: { createdAt: "asc" } } },
+    const availableGptsRaw = await prisma.gPT.findMany({
+      where:
+        role === "ADMIN"
+          ? { enabled: true }
+          : { enabled: true, visibility: "PUBLIC" },
+      orderBy: { createdAt: "asc" },
     });
-  }
 
-  const initialConversation: UiConversation | null = conversationRecord
-    ? {
-      id: conversationRecord.id,
-      title: conversationRecord.title,
-      gptId: conversationRecord.gptId,
-      updatedAt: conversationRecord.updatedAt.toISOString(),
-      gpt: mapGpt(conversationRecord.gpt),
-      messages: conversationRecord.messages.map((message) => ({
-        id: message.id,
-        role: message.role,
-        content: message.content,
-        createdAt: message.createdAt.toISOString(),
-      })),
+    availableGpts = availableGptsRaw.map(mapGpt);
+
+    let conversationRecord =
+      conversationId &&
+      (await prisma.conversation.findFirst({
+        where: { id: conversationId, userId },
+        include: { gpt: true, messages: { orderBy: { createdAt: "asc" } } },
+      }));
+
+    if (!conversationRecord && !isNewChat) {
+      conversationRecord = await prisma.conversation.findFirst({
+        where: { userId },
+        orderBy: { updatedAt: "desc" },
+        include: { gpt: true, messages: { orderBy: { createdAt: "asc" } } },
+      });
     }
-    : null;
+
+    if (conversationRecord) {
+      initialConversation = {
+        id: conversationRecord.id,
+        title: conversationRecord.title,
+        gptId: conversationRecord.gptId,
+        updatedAt: conversationRecord.updatedAt.toISOString(),
+        gpt: mapGpt(conversationRecord.gpt),
+        messages: conversationRecord.messages.map((message) => ({
+          id: message.id,
+          role: message.role,
+          content: message.content,
+          createdAt: message.createdAt.toISOString(),
+        })),
+      };
+    }
+  }
 
   return (
     <ChatView
+      isUserAuthenticated={!!session?.user?.id}
       initialConversation={initialConversation}
       availableGpts={availableGpts}
       initialDraftGptId={requestedGptId}

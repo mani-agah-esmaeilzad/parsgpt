@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { Plus, Compass, Settings, Shield, MoreHorizontal, ChevronLeft, ChevronRight, User, LogOut, PenSquare, Trash2 } from "lucide-react";
+import { Plus, Compass, Settings, Shield, MoreHorizontal, ChevronLeft, ChevronRight, User, LogOut, PenSquare, Trash2, UserRound } from "lucide-react";
 import { useMemo } from "react";
 import { toast } from "sonner";
 
@@ -102,7 +102,7 @@ export function Sidebar({ isMobile, isCollapsed: propCollapsed, onNavigate }: Si
   };
 
   return (
-    <div className="flex h-full flex-col bg-slate-50 dark:bg-black/20">
+    <div className="flex h-full flex-col bg-slate-50 dark:bg-neutral-900 py-safe">
       {/* Header: New Chat + Collapse */}
       <div className={cn("flex items-center p-3", isCollapsed ? "justify-center" : "justify-between")}>
         {isCollapsed ? (
@@ -131,7 +131,7 @@ export function Sidebar({ isMobile, isCollapsed: propCollapsed, onNavigate }: Si
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" onClick={toggleCollapse} className="ms-2 size-10 text-muted-foreground">
+                <Button variant="ghost" size="icon" onClick={toggleCollapse} className="ms-2 size-10">
                   <ChevronRight className="size-5" />
                 </Button>
               </TooltipTrigger>
@@ -142,14 +142,14 @@ export function Sidebar({ isMobile, isCollapsed: propCollapsed, onNavigate }: Si
       </div>
 
       {/* Navigation LInks */}
-      <div className="px-2 pb-2">
+      <div className="px-2.5 pb-2">
         <Link
           href="/explore"
           onClick={onNavigate}
           className={cn(
-            "flex items-center rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground",
+            "flex items-center rounded-2xl px-3 py-2.5 text-sm transition-colors hover:bg-neutral-400/25 active:bg-neutral-400/25",
             isCollapsed ? "justify-center px-0" : "gap-2",
-            pathname === "/explore" && "bg-accent text-accent-foreground"
+            pathname === "/explore" && "bg-neutral-400/25"
           )}
         >
           {isCollapsed ? (
@@ -261,25 +261,25 @@ export function Sidebar({ isMobile, isCollapsed: propCollapsed, onNavigate }: Si
       </ScrollArea>
 
       {/* User Footer */}
-      <div className="border-t p-2 flex flex-col">
+      <div className="border-t border-neutral-400/25 p-2 flex flex-col">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
               className={cn(
-                "w-full justify-start py-6",
+                "w-full justify-start whitespace-nowrap py-6",
                 isCollapsed ? "justify-center px-0" : "px-2"
               )}
             >
-              <Avatar className="h-8 w-8">
-                <AvatarFallback className="bg-primary/20 text-primary">
-                  {session?.user?.name?.[0] ?? <User className="h-4 w-4" />}
+              <Avatar className="size-10">
+                <AvatarFallback className="bg-neutral-400/20 text-neutral-400">
+                  {session?.user?.name?.[0] ?? <UserRound className="h-6" />}
                 </AvatarFallback>
               </Avatar>
               {!isCollapsed && (
-                <div className="mr-3 flex flex-col items-start text-right">
+                <div className="mr-3 flex flex-col space-y-1 items-start text-right">
                   <span className="text-sm font-medium">{session?.user?.email ?? "کاربر مهمان"}</span>
-                  <span className="text-xs text-muted-foreground">طرح رایگان</span>
+                  <span className="text-[10px] text-muted-foreground">طرح رایگان</span>
                 </div>
               )}
             </Button>

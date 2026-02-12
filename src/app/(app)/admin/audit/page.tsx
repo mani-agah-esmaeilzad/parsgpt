@@ -9,11 +9,15 @@ import { cn } from "@/lib/utils";
 export const dynamic = "force-dynamic";
 
 interface AuditPageProps {
-  searchParams: { actionType?: string };
+  searchParams: Promise<{
+    actionType?: string;
+  }>;
 }
 
 export default async function AdminAuditPage({ searchParams }: AuditPageProps) {
-  const logs = await getAdminAuditLogs({ actionType: searchParams.actionType });
+  const { actionType } = await searchParams
+
+  const logs = await getAdminAuditLogs({ actionType });
   const actionTypes = Array.from(new Set(logs.map((log) => log.actionType)));
 
   return (
@@ -23,13 +27,13 @@ export default async function AdminAuditPage({ searchParams }: AuditPageProps) {
           <CardTitle>فیلتر رویدادها</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-wrap gap-2">
-          <FilterChip href="/admin/audit" active={!searchParams.actionType} label="همه" />
+          <FilterChip href="/admin/audit" active={!actionType} label="همه" />
           {actionTypes.map((action) => (
             <FilterChip
-              key={action}
+              key={action as any}
               href={`/admin/audit?actionType=${action}`}
               label={action}
-              active={searchParams.actionType === action}
+              active={actionType === action}
             />
           ))}
         </CardContent>
@@ -98,7 +102,7 @@ export default async function AdminAuditPage({ searchParams }: AuditPageProps) {
   );
 }
 
-function FilterChip({ href, label, active }: { href: string; label: string; active: boolean }) {
+function FilterChip({ href, label, active }: { href: string; label: any; active: boolean }) {
   return (
     <Link
       href={href}
