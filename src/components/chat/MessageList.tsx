@@ -11,7 +11,6 @@ interface MessageListProps {
 
 export function MessageList({ messages, streamingContent }: MessageListProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
-
   // Combine messages + optional streaming message
   const combinedMessages = streamingContent
     ? [
