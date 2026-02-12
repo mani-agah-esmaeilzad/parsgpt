@@ -1,9 +1,9 @@
 {
-  "name": "parsgpt",
+  "name": "chatpars",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack -p 2584",
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint .",
@@ -36,10 +36,12 @@
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
     "eventsource-parser": "^3.0.6",
+    "framer-motion": "^12.34.0",
     "js-tiktoken": "^1.0.21",
     "lucide-react": "^0.563.0",
     "next": "16.1.6",
     "next-auth": "^4.24.13",
+    "next-pwa": "^5.6.0",
     "next-themes": "^0.4.6",
     "pg": "^8.18.0",
     "react": "19.2.3",
@@ -52,9 +54,12 @@
     "swr": "^2.4.0",
     "tailwind-merge": "^3.4.0",
     "tailwindcss-animate": "^1.0.7",
+    "workbox-precaching": "^7.4.0",
+    "workbox-routing": "^7.4.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
     "@types/bcryptjs": "^3.0.0",
     "@types/node": "^20",
     "@types/pg": "^8.16.0",
@@ -66,9 +71,10 @@
     "eslint-config-next": "16.1.6",
     "postcss": "^8.5.6",
     "prisma": "^7.3.0",
-    "tailwindcss": "3.4.15",
+    "tailwindcss": "^4.1.18",
     "tsx": "^4.21.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "workbox-cli": "^7.4.0"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

@@ -14,7 +14,7 @@ interface ChatPageProps {
 }
 
 export const metadata: Metadata = {
-  title: "ParsGPT | گفتگو",
+  title: "Chatpars | گفتگو",
 };
 
 export default async function ChatPage({ searchParams }: ChatPageProps) {
@@ -43,9 +43,9 @@ export default async function ChatPage({ searchParams }: ChatPageProps) {
 
   let conversationRecord = conversationId
     ? await prisma.conversation.findFirst({
-        where: { id: conversationId, userId },
-        include: { gpt: true, messages: { orderBy: { createdAt: "asc" } } },
-      })
+      where: { id: conversationId, userId },
+      include: { gpt: true, messages: { orderBy: { createdAt: "asc" } } },
+    })
     : null;
 
   if (!conversationRecord && !isNewChat) {
@@ -58,18 +58,18 @@ export default async function ChatPage({ searchParams }: ChatPageProps) {
 
   const initialConversation: UiConversation | null = conversationRecord
     ? {
-        id: conversationRecord.id,
-        title: conversationRecord.title,
-        gptId: conversationRecord.gptId,
-        updatedAt: conversationRecord.updatedAt.toISOString(),
-        gpt: mapGpt(conversationRecord.gpt),
-        messages: conversationRecord.messages.map((message) => ({
-          id: message.id,
-          role: message.role,
-          content: message.content,
-          createdAt: message.createdAt.toISOString(),
-        })),
-      }
+      id: conversationRecord.id,
+      title: conversationRecord.title,
+      gptId: conversationRecord.gptId,
+      updatedAt: conversationRecord.updatedAt.toISOString(),
+      gpt: mapGpt(conversationRecord.gpt),
+      messages: conversationRecord.messages.map((message) => ({
+        id: message.id,
+        role: message.role,
+        content: message.content,
+        createdAt: message.createdAt.toISOString(),
+      })),
+    }
     : null;
 
   return (

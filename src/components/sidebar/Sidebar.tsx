@@ -131,8 +131,8 @@ export function Sidebar({ isMobile, isCollapsed: propCollapsed, onNavigate }: Si
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" onClick={toggleCollapse} className="mr-2 h-9 w-9 text-muted-foreground">
-                  <ChevronRight className="h-5 w-5" />
+                <Button variant="ghost" size="icon" onClick={toggleCollapse} className="ms-2 size-10 text-muted-foreground">
+                  <ChevronRight className="size-5" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>بستن منو</TooltipContent>
@@ -261,7 +261,7 @@ export function Sidebar({ isMobile, isCollapsed: propCollapsed, onNavigate }: Si
       </ScrollArea>
 
       {/* User Footer */}
-      <div className="border-t p-2">
+      <div className="border-t p-2 flex flex-col">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -278,7 +278,7 @@ export function Sidebar({ isMobile, isCollapsed: propCollapsed, onNavigate }: Si
               </Avatar>
               {!isCollapsed && (
                 <div className="mr-3 flex flex-col items-start text-right">
-                  <span className="text-sm font-medium">{session?.user?.name ?? "کاربر مهمان"}</span>
+                  <span className="text-sm font-medium">{session?.user?.email ?? "کاربر مهمان"}</span>
                   <span className="text-xs text-muted-foreground">طرح رایگان</span>
                 </div>
               )}
@@ -322,10 +322,10 @@ export function Sidebar({ isMobile, isCollapsed: propCollapsed, onNavigate }: Si
           <Button
             variant="ghost"
             size="icon"
-            className="mx-auto mt-2 h-6 w-6 text-muted-foreground"
+            className="mx-auto mt-2 size-10 text-muted-foreground"
             onClick={toggleCollapse}
           >
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="size-5" />
           </Button>
         )}
       </div>

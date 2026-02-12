@@ -19,7 +19,7 @@ interface GptPageProps {
 export async function generateMetadata({ params }: GptPageProps): Promise<Metadata> {
   const record = await prisma.gPT.findUnique({ where: { slug: params.slug } });
   return {
-    title: record ? `ParsGPT | ${record.name}` : "ParsGPT",
+    title: record ? `Chatpars | ${record.name}` : "ParsGPT",
   };
 }
 

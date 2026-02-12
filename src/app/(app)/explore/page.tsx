@@ -10,7 +10,7 @@ import { PageHeader } from "@/components/layout/PageHeader";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "ParsGPT | کاوش GPT ها",
+  title: "Chatpars | کاوش GPT ها",
 };
 
 export default async function ExplorePage() {

@@ -68,11 +68,11 @@ export function AppShell({ children }: AppShellProps) {
       {/* Layout self-check: the sidebar lives ONLY here inside AppShell (no other layout renders it).
           Following NO rules -> no fixed sidebar, no padding hacks, wrapper uses flex-row-reverse,
           main pane has min-w-0 flex-col, so no phantom columns or duplicate sidebars. */}
-      <div className="flex h-dvh w-full overflow-hidden flex-row-reverse bg-background">
+      <div className="flex h-dvh w-full overflow-hidden flex-row bg-background">
         {/* Desktop Sidebar */}
         <aside
           className={cn(
-            "hidden md:flex flex-col border-l bg-background transition-all duration-300 ease-in-out",
+            "hidden md:flex flex-col border-e bg-background transition-all duration-300 ease-in-out",
             isCollapsed ? "w-[68px]" : "w-[280px]"
           )}
         >

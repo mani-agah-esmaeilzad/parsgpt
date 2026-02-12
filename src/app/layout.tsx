@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Vazirmatn } from "next/font/google";
 import { getServerSession } from "next-auth";
 
@@ -11,15 +11,23 @@ import { authOptions } from "@/lib/auth/options";
 
 const vazirmatn = Vazirmatn({
   subsets: ["arabic", "latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-vazirmatn",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "ParsGPT",
+  title: "Chatpars",
   description: "نسخه فارسی‌سازی شده و مدیریتی شبیه ChatGPT برای تیم‌ها.",
-};
+}
+
+export const viewport: Viewport = {
+  initialScale: 1,
+  userScalable: false,
+  viewportFit: "cover",
+  width: "device-width",
+  interactiveWidget: "resizes-content"
+}
 
 export default async function RootLayout({
   children,
@@ -28,7 +36,7 @@ export default async function RootLayout({
 
   return (
     <html lang="fa" dir="rtl" suppressHydrationWarning>
-      <body className={`${vazirmatn.variable} font-sans bg-background text-foreground`}>
+      <body className={`${vazirmatn.variable} font-sans`}>
         <AuthProvider session={session}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
