@@ -14,7 +14,8 @@ import { cn } from "@/lib/utils";
 
 export interface AdminUserRow {
   id: string;
-  email: string;
+  email: string | null;
+  phone?: string | null;
   name: string | null;
   role: Role;
   createdAt: string;
@@ -104,7 +105,7 @@ export function UserTable({ initialUsers, initialQuery = "", initialDays = 30 }:
           <div className="relative flex-1">
             <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              placeholder="جستجو بر اساس ایمیل یا نام"
+              placeholder="جستجو بر اساس موبایل یا نام"
               className="pr-9"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
@@ -133,7 +134,7 @@ export function UserTable({ initialUsers, initialQuery = "", initialDays = 30 }:
             <TableHeader>
               <TableRow>
                 <TableHead className="text-right">کاربر</TableHead>
-                <TableHead className="text-right">ایمیل</TableHead>
+                <TableHead className="text-right">موبایل</TableHead>
                 <TableHead className="text-right">تاریخ عضویت</TableHead>
                 <TableHead className="text-right">نقش</TableHead>
                 <TableHead className="text-right">گفتگوها</TableHead>
@@ -146,7 +147,7 @@ export function UserTable({ initialUsers, initialQuery = "", initialDays = 30 }:
                 <TableRow key={user.id} className={cn(isLoading && "opacity-60")}> 
                   <TableCell className="font-medium">{user.name ?? "—"}</TableCell>
                   <TableCell dir="ltr" className="text-xs text-muted-foreground">
-                    {user.email}
+                    {user.phone ?? "—"}
                   </TableCell>
                   <TableCell className="text-xs text-muted-foreground">
                     {new Date(user.createdAt).toLocaleDateString("fa-IR")}

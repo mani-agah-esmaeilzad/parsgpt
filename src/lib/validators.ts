@@ -65,14 +65,6 @@ export const searchSchema = z.object({
   tags: z.array(z.string()).optional(),
 });
 
-export const signUpSchema = z
-  .object({
-    name: z.string().min(2),
-    email: z.string().email(),
-    password: z.string().min(8),
-    confirmPassword: z.string().min(8),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"],
-    message: "رمز عبور یکسان نیست",
-  });
+export const signUpSchema = z.object({
+  phone: z.string().min(5),
+});

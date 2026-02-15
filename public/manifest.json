@@ -1,0 +1,36 @@
+{
+  "name": "ParsGPT",
+  "short_name": "ParsGPT",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f8f7f2",
+  "theme_color": "#111827",
+  "description": "ParsGPT Progressive Web App",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon-120x120.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon-120x120-precomposed.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon-precomposed.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

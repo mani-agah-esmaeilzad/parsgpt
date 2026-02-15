@@ -19,14 +19,18 @@ const prisma = new PrismaClient(pgAdapter ? { adapter: pgAdapter } : undefined);
 async function main() {
   const adminEmail = process.env.SEED_ADMIN_EMAIL ?? "admin@parsgpt.local";
   const adminPassword = process.env.SEED_ADMIN_PASSWORD ?? "Admin123!";
+  const adminPhone = process.env.SEED_ADMIN_PHONE ?? null;
 
   const passwordHash = await bcrypt.hash(adminPassword, 12);
 
   await prisma.user.upsert({
     where: { email: adminEmail },
-    update: {},
+    update: {
+      ...(adminPhone ? { phone: adminPhone } : {}),
+    },
     create: {
       email: adminEmail,
+      ...(adminPhone ? { phone: adminPhone } : {}),
       name: "مدیر سیستم",
       passwordHash,
       role: "ADMIN",

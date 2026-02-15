@@ -147,6 +147,7 @@ export async function getUsersWithStats({
     ? {
         OR: [
           { email: { contains: search, mode: "insensitive" as const } },
+          { phone: { contains: search, mode: "insensitive" as const } },
           { name: { contains: search, mode: "insensitive" as const } },
         ],
       }
@@ -161,6 +162,7 @@ export async function getUsersWithStats({
       select: {
         id: true,
         email: true,
+        phone: true,
         name: true,
         role: true,
         createdAt: true,
@@ -186,6 +188,7 @@ export async function getUsersWithStats({
   return users.map((user) => ({
     id: user.id,
     email: user.email,
+    phone: user.phone,
     name: user.name,
     role: user.role,
     createdAt: user.createdAt,
