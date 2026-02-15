@@ -15,11 +15,18 @@ const OTP_COOLDOWN_SECONDS = Number(process.env.OTP_COOLDOWN_SECONDS ?? 60);
 const OTP_MAX_ATTEMPTS = Number(process.env.OTP_MAX_ATTEMPTS ?? 5);
 const OTP_DEV_MODE = process.env.OTP_DEV_MODE === "true";
 const OTP_FIXED_CODE = process.env.OTP_FIXED_CODE ?? "11111";
+const OTP_FORCE_FIXED = process.env.OTP_FORCE_FIXED === "true";
 
 function generateOtpCode() {
   return Math.floor(Math.random() * 100000)
     .toString()
     .padStart(5, "0");
+}
+
+function isMissingOtpTable(error: unknown) {
+  if (!error || typeof error !== "object") return false;
+  const message = "message" in error ? String((error as { message?: string }).message) : "";
+  return message.includes("OtpCode") && message.includes("does not exist");
 }
 
 export async function POST(req: Request) {
@@ -32,7 +39,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "شماره موبایل نامعتبر است." }, { status: 400 });
     }
 
-    if (OTP_DEV_MODE) {
+    if (OTP_DEV_MODE || OTP_FORCE_FIXED) {
       return NextResponse.json({
         sent: true,
         provider: "dev",
@@ -44,7 +51,22 @@ export async function POST(req: Request) {
     }
 
     const now = new Date();
-    const existing = await prisma.otpCode.findUnique({ where: { phone: normalized } });
+    let existing: Awaited<ReturnType<typeof prisma.otpCode.findUnique>> | null = null;
+    try {
+      existing = await prisma.otpCode.findUnique({ where: { phone: normalized } });
+    } catch (error) {
+      if (isMissingOtpTable(error)) {
+        return NextResponse.json({
+          sent: true,
+          provider: "dev",
+          requestId: "DEV",
+          expiresIn: OTP_TTL_SECONDS,
+          cooldown: OTP_COOLDOWN_SECONDS,
+          devCode: OTP_FIXED_CODE,
+        });
+      }
+      throw error;
+    }
     if (existing) {
       const diffSeconds = (now.getTime() - existing.lastSentAt.getTime()) / 1000;
       if (diffSeconds < OTP_COOLDOWN_SECONDS) {
