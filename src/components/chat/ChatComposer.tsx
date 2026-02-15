@@ -101,7 +101,7 @@ export function ChatComposer({ onSend, onStop, onRegenerate, isStreaming, canReg
             </Tooltip>
           </TooltipProvider>
         </div>
-        <div className="text-center text-xs text-muted-foreground/60 py-2">
+        <div className="text-center text-xs text-muted-foreground py-2">
           ParsGPT ممکن است اشتباه کند. اطلاعات مهم را بررسی کنید.
         </div>
       </div>
