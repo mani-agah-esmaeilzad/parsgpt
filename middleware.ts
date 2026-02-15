@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
-const APP_ROUTES = ["/", "/chat", "/explore", "/gpt", "/settings", "/admin"];
+const APP_ROUTES = ["/chat", "/explore", "/gpt", "/settings", "/admin"];
 const AUTH_ROUTES = ["/sign-in", "/sign-up"];
 
 function isAppPath(pathname: string) {
@@ -54,7 +54,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/",
     "/chat/:path*",
     "/explore/:path*",
     "/gpt/:path*",
