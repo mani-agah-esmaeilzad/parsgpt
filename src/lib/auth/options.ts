@@ -48,50 +48,30 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const ensureUser = async (normalizedPhone: string) => {
-          const fallbackEmail = `${normalizedPhone}@phone.local`;
-          const fallbackPasswordHash = await bcrypt.hash(OTP_FIXED_CODE, 10);
-
-          try {
-            let user = await prisma.user.findUnique({ where: { phone: normalizedPhone } });
-            if (!user) {
-              user = await prisma.user.create({
-                data: {
-                  phone: normalizedPhone,
-                  email: fallbackEmail,
-                  passwordHash: fallbackPasswordHash,
-                  role: "USER",
-                },
-              });
-            }
-            return user;
-          } catch (error) {
-            if (!isMissingPhoneColumn(error)) {
-              throw error;
-            }
-
-            let user = await prisma.user.findUnique({ where: { email: fallbackEmail } });
-            if (!user) {
-              user = await prisma.user.create({
-                data: {
-                  email: fallbackEmail,
-                  passwordHash: fallbackPasswordHash,
-                  role: "USER",
-                },
-              });
-            }
-            return user;
-          }
-        };
-
         // Temporary: accept fixed code without OTP table/provider.
         if (code === OTP_FIXED_CODE && (OTP_DEV_MODE || OTP_FORCE_FIXED)) {
-          const user = await ensureUser(normalized);
+          const fallbackEmail = `${normalized}@phone.local`;
+          const fallbackPasswordHash = await bcrypt.hash(OTP_FIXED_CODE, 10);
+          const user = await prisma.user.upsert({
+            where: { email: fallbackEmail },
+            update: {},
+            create: {
+              email: fallbackEmail,
+              passwordHash: fallbackPasswordHash,
+              role: "USER",
+            },
+            select: {
+              id: true,
+              email: true,
+              name: true,
+              role: true,
+            },
+          });
           return {
             id: user.id,
             email: user.email,
             name: user.name,
-            phone: user.phone ?? normalized,
+            phone: normalized,
             role: user.role,
           } satisfies {
             id: string;
@@ -101,6 +81,72 @@ export const authOptions: NextAuthOptions = {
             role: Role;
           };
         }
+
+        const ensureUser = async (normalizedPhone: string) => {
+          const fallbackEmail = `${normalizedPhone}@phone.local`;
+          const fallbackPasswordHash = await bcrypt.hash(OTP_FIXED_CODE, 10);
+
+          try {
+            let user = await prisma.user.findUnique({
+              where: { phone: normalizedPhone },
+              select: {
+                id: true,
+                email: true,
+                name: true,
+                role: true,
+                phone: true,
+              },
+            });
+            if (!user) {
+              user = await prisma.user.create({
+                data: {
+                  phone: normalizedPhone,
+                  email: fallbackEmail,
+                  passwordHash: fallbackPasswordHash,
+                  role: "USER",
+                },
+                select: {
+                  id: true,
+                  email: true,
+                  name: true,
+                  role: true,
+                  phone: true,
+                },
+              });
+            }
+            return user;
+          } catch (error) {
+            if (!isMissingPhoneColumn(error)) {
+              throw error;
+            }
+
+            let user = await prisma.user.findUnique({
+              where: { email: fallbackEmail },
+              select: {
+                id: true,
+                email: true,
+                name: true,
+                role: true,
+              },
+            });
+            if (!user) {
+              user = await prisma.user.create({
+                data: {
+                  email: fallbackEmail,
+                  passwordHash: fallbackPasswordHash,
+                  role: "USER",
+                },
+                select: {
+                  id: true,
+                  email: true,
+                  name: true,
+                  role: true,
+                },
+              });
+            }
+            return { ...user, phone: null } as typeof user & { phone: string | null };
+          }
+        };
 
         if (!OTP_DEV_MODE && !OTP_FORCE_FIXED) {
           let otpRecord;
