@@ -32,6 +32,17 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "شماره موبایل نامعتبر است." }, { status: 400 });
     }
 
+    if (OTP_DEV_MODE) {
+      return NextResponse.json({
+        sent: true,
+        provider: "dev",
+        requestId: "DEV",
+        expiresIn: OTP_TTL_SECONDS,
+        cooldown: OTP_COOLDOWN_SECONDS,
+        devCode: OTP_FIXED_CODE,
+      });
+    }
+
     const now = new Date();
     const existing = await prisma.otpCode.findUnique({ where: { phone: normalized } });
     if (existing) {

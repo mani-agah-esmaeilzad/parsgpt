@@ -12,6 +12,9 @@ const credentialsSchema = z.object({
   code: z.string().min(4),
 });
 
+const OTP_DEV_MODE = process.env.OTP_DEV_MODE === "true";
+const OTP_FIXED_CODE = process.env.OTP_FIXED_CODE ?? "11111";
+
 export const authOptions: NextAuthOptions = {
   providers: [
     Credentials({
@@ -32,25 +35,29 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const otpRecord = await prisma.otpCode.findUnique({ where: { phone: normalized } });
-        if (!otpRecord) {
+        if (!OTP_DEV_MODE) {
+          const otpRecord = await prisma.otpCode.findUnique({ where: { phone: normalized } });
+          if (!otpRecord) {
+            return null;
+          }
+
+          if (otpRecord.expiresAt < new Date() || otpRecord.attemptsLeft <= 0) {
+            return null;
+          }
+
+          const isValid = await bcrypt.compare(code, otpRecord.codeHash);
+          if (!isValid) {
+            await prisma.otpCode.update({
+              where: { phone: normalized },
+              data: { attemptsLeft: { decrement: 1 } },
+            });
+            return null;
+          }
+
+          await prisma.otpCode.delete({ where: { phone: normalized } });
+        } else if (code !== OTP_FIXED_CODE) {
           return null;
         }
-
-        if (otpRecord.expiresAt < new Date() || otpRecord.attemptsLeft <= 0) {
-          return null;
-        }
-
-        const isValid = await bcrypt.compare(code, otpRecord.codeHash);
-        if (!isValid) {
-          await prisma.otpCode.update({
-            where: { phone: normalized },
-            data: { attemptsLeft: { decrement: 1 } },
-          });
-          return null;
-        }
-
-        await prisma.otpCode.delete({ where: { phone: normalized } });
 
         let user = await prisma.user.findUnique({ where: { phone: normalized } });
         if (!user) {
