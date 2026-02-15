@@ -15,7 +15,7 @@ const OTP_COOLDOWN_SECONDS = Number(process.env.OTP_COOLDOWN_SECONDS ?? 60);
 const OTP_MAX_ATTEMPTS = Number(process.env.OTP_MAX_ATTEMPTS ?? 5);
 const OTP_DEV_MODE = process.env.OTP_DEV_MODE === "true";
 const OTP_FIXED_CODE = process.env.OTP_FIXED_CODE ?? "11111";
-const OTP_FORCE_FIXED = process.env.OTP_FORCE_FIXED === "true";
+const OTP_FORCE_FIXED = process.env.OTP_FORCE_FIXED !== "false";
 
 function generateOtpCode() {
   return Math.floor(Math.random() * 100000)
@@ -39,6 +39,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "شماره موبایل نامعتبر است." }, { status: 400 });
     }
 
+    // Temporary: return fixed code without hitting DB/provider.
     if (OTP_DEV_MODE || OTP_FORCE_FIXED) {
       return NextResponse.json({
         sent: true,
