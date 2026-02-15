@@ -44,13 +44,13 @@ export function ExploreClient({ gpts }: ExploreClientProps) {
         <h1 className="text-3xl font-bold tracking-tight md:text-4xl text-primary">
           اکتشاف GPT های سفارشی
         </h1>
-        <p className="text-lg text-muted-foreground max-w-2xl">
+        <p className="text-lg text-muted-foreground dark:text-white/70 max-w-2xl">
           بهترین دستیارهای هوش مصنوعی را برای کارهای روزمره، برنامه‌نویسی، و خلاقیت پیدا کنید.
         </p>
 
         {/* Search Bar */}
         <div className="relative w-full max-w-lg mt-6">
-          <Search className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+          <Search className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground dark:text-white/70" />
           <Input
             className="pr-10 h-12 rounded-full text-base shadow-sm"
             placeholder="جستجو در بین GPT ها..."
@@ -88,7 +88,7 @@ export function ExploreClient({ gpts }: ExploreClientProps) {
       {/* Grid */}
       <div className="min-h-[400px]">
         {filtered.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 text-muted-foreground border border-dashed rounded-xl">
+          <div className="flex flex-col items-center justify-center py-20 text-muted-foreground dark:text-white/70 border border-dashed rounded-xl">
             <Search className="h-10 w-10 mb-4 opacity-50" />
             <p>موردی یافت نشد.</p>
             <Button variant="link" onClick={() => { setQuery(""); setSelectedCategory(null); }}>

@@ -87,19 +87,19 @@ export default function RootPage() {
             <h1 className="text-4xl font-black leading-tight md:text-6xl">
               دستیار فارسی‌زبان شما برای پاسخ سریع و دقیق
             </h1>
-            <p className="max-w-xl text-sm text-neutral-600 md:text-base dark:text-white/70">
+            <p className="max-w-xl text-sm text-neutral-700 md:text-base dark:text-white/80">
               تجربه‌ای شبیه Dadnoos با تمرکز روی گفتگوهای فارسی. ورود تنها با شماره موبایل و
               بدون نیاز به نام کاربری.
             </p>
 
             <div className="flex flex-wrap gap-3">
-              <div className="rounded-full border border-neutral-300 bg-white px-4 py-2 text-xs font-medium text-neutral-600 dark:border-white/10 dark:bg-white/5 dark:text-white/70">
+              <div className="rounded-full border border-neutral-300 bg-white px-4 py-2 text-xs font-medium text-neutral-700 dark:border-white/10 dark:bg-white/5 dark:text-white/80">
                 احراز هویت با موبایل
               </div>
-              <div className="rounded-full border border-neutral-300 bg-white px-4 py-2 text-xs font-medium text-neutral-600 dark:border-white/10 dark:bg-white/5 dark:text-white/70">
+              <div className="rounded-full border border-neutral-300 bg-white px-4 py-2 text-xs font-medium text-neutral-700 dark:border-white/10 dark:bg-white/5 dark:text-white/80">
                 محیط امن و سریع
               </div>
-              <div className="rounded-full border border-neutral-300 bg-white px-4 py-2 text-xs font-medium text-neutral-600 dark:border-white/10 dark:bg-white/5 dark:text-white/70">
+              <div className="rounded-full border border-neutral-300 bg-white px-4 py-2 text-xs font-medium text-neutral-700 dark:border-white/10 dark:bg-white/5 dark:text-white/80">
                 طراحی تمپلیت محور
               </div>
             </div>
@@ -107,7 +107,7 @@ export default function RootPage() {
 
           <div className="rounded-3xl border border-neutral-200 bg-white/80 p-6 shadow-sm dark:border-white/10 dark:bg-white/5">
             <div className="space-y-4">
-              <p className="text-sm font-medium text-neutral-500 dark:text-white/60">
+              <p className="text-sm font-medium text-neutral-700 dark:text-white/80">
                 یک سوال بپرسید تا شروع کنیم
               </p>
               <textarea
@@ -128,7 +128,7 @@ export default function RootPage() {
           </div>
         </main>
 
-        <section className="mt-16 grid gap-4 text-xs text-neutral-500 md:grid-cols-3 dark:text-white/60">
+        <section className="mt-16 grid gap-4 text-xs text-neutral-700 md:grid-cols-3 dark:text-white/75">
           <div className="rounded-2xl border border-neutral-200 bg-white/70 p-4 dark:border-white/10 dark:bg-white/5">
             پاسخ‌های سریع با تمرکز بر زبان فارسی و زمینه‌های پرکاربرد
           </div>

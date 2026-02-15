@@ -71,7 +71,7 @@ export function ChatHeader({
           <p className="truncate text-sm font-semibold">
             {conversation?.title ?? "گفتگوی جدید"}
           </p>
-          <p className="flex items-center gap-2 text-xs text-muted-foreground">
+          <p className="flex items-center gap-2 text-xs text-muted-foreground dark:text-white/70">
             <span>{activeGpt?.icon ?? "🤖"}</span>
             <span className="truncate">{activeGpt?.name ?? "بدون GPT"}</span>
             {activeGpt && activeGpt.visibility === "PRIVATE" && (

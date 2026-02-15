@@ -229,7 +229,7 @@ export function ChatView({ initialConversation, availableGpts, initialDraftGptId
             activeGpt ? (
               <EmptyState gpt={activeGpt} onSelectPrompt={handleSend} />
             ) : (
-              <p className="text-center text-sm text-muted-foreground mt-20">
+              <p className="text-center text-sm text-muted-foreground dark:text-white/70 mt-20">
                 هیچ GPT فعالی تعریف نشده است. ابتدا یک GPT بسازید.
               </p>
             )

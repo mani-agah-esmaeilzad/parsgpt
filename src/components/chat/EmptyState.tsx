@@ -25,7 +25,7 @@ export function EmptyState({ gpt, onSelectPrompt }: EmptyStateProps) {
           {gpt.name}
         </h2>
         {gpt.description && (
-          <p className="max-w-md text-muted-foreground text-center text-sm leading-relaxed">
+          <p className="max-w-md text-muted-foreground dark:text-white/70 text-center text-sm leading-relaxed">
             {gpt.description}
           </p>
         )}
@@ -43,7 +43,7 @@ export function EmptyState({ gpt, onSelectPrompt }: EmptyStateProps) {
                 {prompt}
               </span>
               <div className="absolute left-3 top-3 opacity-0 transition-opacity group-hover:opacity-100">
-                <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+                <ArrowUpRight className="h-4 w-4 text-muted-foreground dark:text-white/70" />
               </div>
             </button>
           ))}

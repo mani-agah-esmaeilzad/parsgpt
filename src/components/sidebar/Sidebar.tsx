@@ -112,7 +112,7 @@ export function Sidebar({ isMobile, isCollapsed: propCollapsed, onNavigate }: Si
           {!isCollapsed && <span className="text-sm font-semibold">ParsGPT</span>}
         </Link>
         {!isMobile && !isCollapsed && (
-          <Button variant="ghost" size="icon" onClick={toggleCollapse} className="h-8 w-8 text-muted-foreground">
+          <Button variant="ghost" size="icon" onClick={toggleCollapse} className="h-8 w-8 text-muted-foreground dark:text-white/70">
             <ChevronRight className="h-4 w-4" />
           </Button>
         )}
@@ -212,7 +212,7 @@ export function Sidebar({ isMobile, isCollapsed: propCollapsed, onNavigate }: Si
 
               return (
                 <div key={group}>
-                  <h3 className="mb-2 px-2 text-xs font-semibold text-muted-foreground/70">{GROUP_LABELS[group]}</h3>
+                  <h3 className="mb-2 px-2 text-xs font-semibold text-muted-foreground dark:text-white/70">{GROUP_LABELS[group]}</h3>
                   <div className="flex flex-col gap-0.5">
                     {items.map((conversation) => (
                       <div
@@ -254,7 +254,7 @@ export function Sidebar({ isMobile, isCollapsed: propCollapsed, onNavigate }: Si
               );
             })}
             {!Object.values(grouped).some((items) => items.length) && !isCollapsed && (
-              <div className="text-center py-10 opacity-50">
+              <div className="text-center py-10 text-muted-foreground dark:text-white/70">
                 <p className="text-sm">تاریخچه‌ای یافت نشد</p>
               </div>
             )}
@@ -281,7 +281,7 @@ export function Sidebar({ isMobile, isCollapsed: propCollapsed, onNavigate }: Si
               {!isCollapsed && (
                 <div className="mr-3 flex flex-col items-start text-right">
                   <span className="text-sm font-medium">{session?.user?.name ?? "کاربر مهمان"}</span>
-                  <span className="text-xs text-muted-foreground">طرح رایگان</span>
+                  <span className="text-xs text-muted-foreground dark:text-white/70">طرح رایگان</span>
                 </div>
               )}
             </Button>
@@ -324,7 +324,7 @@ export function Sidebar({ isMobile, isCollapsed: propCollapsed, onNavigate }: Si
           <Button
             variant="ghost"
             size="icon"
-            className="mx-auto mt-2 h-6 w-6 text-muted-foreground"
+            className="mx-auto mt-2 h-6 w-6 text-muted-foreground dark:text-white/70"
             onClick={toggleCollapse}
           >
             <ChevronLeft className="h-4 w-4" />

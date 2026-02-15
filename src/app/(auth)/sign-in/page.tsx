@@ -178,7 +178,7 @@ export default function SignInPage() {
               <label
                 htmlFor="phone"
                 className={cn(
-                  "absolute right-4 text-xs text-neutral-500 transition-all duration-200 ease-out",
+                  "absolute right-4 text-xs text-neutral-700 dark:text-white/70 transition-all duration-200 ease-out",
                   phone.length ? "-top-2 bg-white px-1 dark:bg-black" : "top-3"
                 )}
               >

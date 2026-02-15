@@ -114,7 +114,7 @@ function CodeBlock({ language, value }: { language: string; value: string }) {
 
     return (
         <div className="relative my-4 overflow-hidden rounded-md border bg-zinc-950 text-gray-100" dir="ltr">
-            <div className="flex items-center justify-between bg-zinc-800/50 px-4 py-2 text-xs text-gray-400">
+            <div className="flex items-center justify-between bg-zinc-800/50 px-4 py-2 text-xs text-gray-200">
                 <span>{language}</span>
                 <button onClick={handleCopy} className="flex items-center gap-1 hover:text-white">
                     {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
