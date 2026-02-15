@@ -213,7 +213,7 @@ export function ChatView({ initialConversation, availableGpts, initialDraftGptId
     (messages.some((message) => message.role === "assistant") || Boolean(streamingMessage));
 
   return (
-    <div className="flex h-full flex-1 flex-col">
+    <div className="flex h-full flex-1 flex-col bg-transparent">
       <ChatHeader
         conversation={conversation}
         activeGpt={activeGpt}

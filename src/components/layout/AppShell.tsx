@@ -60,7 +60,7 @@ export function AppShell({ children }: AppShellProps) {
     >
       {/* Mobile Sidebar (Sheet) */}
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetContent side="right" className="w-[300px] max-w-[85vw] p-0 border-l-0">
+        <SheetContent side="right" className="w-[320px] max-w-[90vw] p-0 border-l-0 bg-[#f8f7f2] dark:bg-black">
           <Sidebar isMobile />
         </SheetContent>
       </Sheet>
@@ -68,11 +68,11 @@ export function AppShell({ children }: AppShellProps) {
       {/* Layout self-check: the sidebar lives ONLY here inside AppShell (no other layout renders it).
           Following NO rules -> no fixed sidebar, no padding hacks, wrapper uses flex-row-reverse,
           main pane has min-w-0 flex-col, so no phantom columns or duplicate sidebars. */}
-      <div className="flex h-dvh w-full overflow-hidden flex-row-reverse bg-background">
+      <div className="flex h-dvh w-full overflow-hidden flex-row-reverse bg-[#f8f7f2] text-neutral-900 dark:bg-black dark:text-white">
         {/* Desktop Sidebar */}
         <aside
           className={cn(
-            "hidden md:flex flex-col border-l bg-background transition-all duration-300 ease-in-out",
+            "hidden md:flex flex-col border-l border-black/5 bg-white/80 backdrop-blur transition-all duration-300 ease-in-out dark:border-white/10 dark:bg-black/40",
             isCollapsed ? "w-[68px]" : "w-[280px]"
           )}
         >

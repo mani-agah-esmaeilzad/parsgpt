@@ -12,7 +12,7 @@ export function EmptyState({ gpt, onSelectPrompt }: EmptyStateProps) {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-8 px-4 animate-in fade-in duration-500">
       <div className="flex flex-col items-center gap-4 text-center">
-        <div className="rounded-full bg-background p-4 shadow-sm ring-1 ring-border/50">
+        <div className="rounded-full bg-white/80 p-4 shadow-sm ring-1 ring-black/5 dark:bg-white/10 dark:ring-white/10">
           {gpt.icon ? (
             <span className="text-4xl">{gpt.icon}</span>
           ) : (
@@ -37,7 +37,7 @@ export function EmptyState({ gpt, onSelectPrompt }: EmptyStateProps) {
             <button
               key={i}
               onClick={() => onSelectPrompt(prompt)}
-              className="group relative flex flex-col items-start gap-2 rounded-xl border bg-background p-4 text-right transition-all hover:bg-muted/50 hover:shadow-sm"
+              className="group relative flex flex-col items-start gap-2 rounded-2xl border border-black/5 bg-white/80 p-4 text-right transition-all hover:bg-white hover:shadow-sm dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
             >
               <span className="text-sm font-medium text-foreground line-clamp-2">
                 {prompt}

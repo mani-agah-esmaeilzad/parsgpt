@@ -32,7 +32,7 @@ export function MessageList({ messages, streamingContent }: MessageListProps) {
   }, [combinedMessages.length, streamingContent]);
 
   return (
-    <div className="flex flex-col pb-4 text-base">
+    <div className="flex flex-col pb-16 pt-6 text-base">
       {combinedMessages.map((message) => (
         <MessageItem
           key={message.id}

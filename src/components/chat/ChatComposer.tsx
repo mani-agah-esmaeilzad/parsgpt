@@ -41,7 +41,7 @@ export function ChatComposer({ onSend, onStop, onRegenerate, isStreaming, canReg
   };
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 md:px-6">
+    <div className="mx-auto w-full max-w-4xl px-4 pb-4 md:px-6">
       <div className="relative flex flex-col items-center justify-center gap-2">
         {/* Regererate / Stop Controls (Optional helper buttons above input) */}
         {(isStreaming || canRegenerate) && (
@@ -62,12 +62,12 @@ export function ChatComposer({ onSend, onStop, onRegenerate, isStreaming, canReg
           </div>
         )}
 
-        <div className="relative flex w-full items-end gap-2 rounded-2xl border bg-background p-2 shadow-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring ring-1 ring-border/50">
+        <div className="relative flex w-full items-end gap-2 rounded-2xl border border-black/10 bg-white/80 p-2 shadow-sm ring-1 ring-transparent focus-within:border-black/20 dark:border-white/10 dark:bg-white/5">
           <Textarea
             dir="rtl"
             ref={textareaRef}
-            placeholder="پیام خود را به ParsGPT بفرستید..."
-            className="min-h-[24px] max-h-[200px] w-full resize-none border-0 bg-transparent p-3 shadow-none focus-visible:ring-0 text-base py-[10px]"
+            placeholder="پیام خود را بنویسید..."
+            className="min-h-[24px] max-h-[200px] w-full resize-none border-0 bg-transparent p-3 text-sm shadow-none focus-visible:ring-0"
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -79,8 +79,10 @@ export function ChatComposer({ onSend, onStop, onRegenerate, isStreaming, canReg
                 <Button
                   size="icon"
                   className={cn(
-                    "mb-1 h-8 w-8 rounded-lg transition-all",
-                    value.trim() ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                    "mb-1 h-9 w-9 rounded-xl transition-all",
+                    value.trim()
+                      ? "bg-black text-white hover:bg-black/80 dark:bg-white dark:text-black dark:hover:bg-white/80"
+                      : "bg-black/10 text-neutral-400 dark:bg-white/10 dark:text-white/40"
                   )}
                   disabled={!value.trim() || isStreaming}
                   onClick={handleSubmit}
@@ -99,7 +101,7 @@ export function ChatComposer({ onSend, onStop, onRegenerate, isStreaming, canReg
             </Tooltip>
           </TooltipProvider>
         </div>
-        <div className="text-center text-xs text-muted-foreground/50 py-2">
+        <div className="text-center text-xs text-muted-foreground/60 py-2">
           ParsGPT ممکن است اشتباه کند. اطلاعات مهم را بررسی کنید.
         </div>
       </div>
