@@ -22,6 +22,12 @@ function isMissingOtpTable(error: unknown) {
   return message.includes("OtpCode") && message.includes("does not exist");
 }
 
+function isMissingPhoneColumn(error: unknown) {
+  if (!error || typeof error !== "object") return false;
+  const message = "message" in error ? String((error as { message?: string }).message) : "";
+  return message.toLowerCase().includes("phone") && message.toLowerCase().includes("does not exist");
+}
+
 export const authOptions: NextAuthOptions = {
   providers: [
     Credentials({
@@ -43,16 +49,39 @@ export const authOptions: NextAuthOptions = {
         }
 
         const ensureUser = async (normalizedPhone: string) => {
-          let user = await prisma.user.findUnique({ where: { phone: normalizedPhone } });
-          if (!user) {
-            user = await prisma.user.create({
-              data: {
-                phone: normalizedPhone,
-                role: "USER",
-              },
-            });
+          const fallbackEmail = `${normalizedPhone}@phone.local`;
+          const fallbackPasswordHash = await bcrypt.hash(OTP_FIXED_CODE, 10);
+
+          try {
+            let user = await prisma.user.findUnique({ where: { phone: normalizedPhone } });
+            if (!user) {
+              user = await prisma.user.create({
+                data: {
+                  phone: normalizedPhone,
+                  email: fallbackEmail,
+                  passwordHash: fallbackPasswordHash,
+                  role: "USER",
+                },
+              });
+            }
+            return user;
+          } catch (error) {
+            if (!isMissingPhoneColumn(error)) {
+              throw error;
+            }
+
+            let user = await prisma.user.findUnique({ where: { email: fallbackEmail } });
+            if (!user) {
+              user = await prisma.user.create({
+                data: {
+                  email: fallbackEmail,
+                  passwordHash: fallbackPasswordHash,
+                  role: "USER",
+                },
+              });
+            }
+            return user;
           }
-          return user;
         };
 
         // Temporary: accept fixed code without OTP table/provider.
@@ -62,7 +91,7 @@ export const authOptions: NextAuthOptions = {
             id: user.id,
             email: user.email,
             name: user.name,
-            phone: user.phone,
+            phone: user.phone ?? normalized,
             role: user.role,
           } satisfies {
             id: string;
