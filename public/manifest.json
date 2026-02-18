@@ -1,12 +1,10 @@
 {
-  "name": "ParsGPT",
-  "short_name": "ParsGPT",
+  "name": "ChatPars",
+  "short_name": "ChatPars",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#f8f7f2",
-  "theme_color": "#111827",
-  "description": "ParsGPT Progressive Web App",
+  "description": "ChatPars Progressive Web App",
   "icons": [
     {
       "src": "/logo.png",

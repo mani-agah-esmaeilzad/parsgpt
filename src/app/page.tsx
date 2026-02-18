@@ -1,18 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { ArrowUpRight } from "lucide-react";
-import { useSession } from "next-auth/react";
+import Link from "next/link"
+import Image from "next/image"
 
-const typingHints = [
-  "نمونه قرارداد اجاره آپارتمان بنویس",
-  "راهنمای ثبت شرکت در ایران",
-  "متن لایحه برای مطالبه مهریه",
-  "شرایط فسخ قرارداد خرید و فروش چیست؟",
-  "برای سفر ۵ روزه به استانبول برنامه بده",
-  "خلاصه قوانین مربوط به دیه چیست؟",
-];
+import { ArrowUp } from "lucide-react"
+
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react"
+import { motion, AnimatePresence, useMotionValue } from "framer-motion"
+
+
+import AssistantsList from "@/components/layout/AssistantsList"
+import ShinyButton from "@/components/layout/ShinyButton"
+
+const websiteName = "چت‌پارس"
+const websiteTaglines = "Chatpars GPTs"
+const websiteDescription = "دستیارهای تخصصی هوش مصنوعی"
+
+const typingHints: string[] = [
+  "استراتژی رشد برای کسب‌وکارهای کوچک صنعتی", // صنعتی
+  "نکات مهم در تنظیم وصیت‌نامه",             // حقوقی
+  "پیامدهای تصمیمات سیاسی بر زندگی روزمره",   // سیاسی
+  "روش یادگیری سریع ریاضیات",               // درسی
+  "چگونه داستان کوتاه بنویسیم؟",             // هنری
+  "بهترین بازی‌های آنلاین رایگان"          // تفریحی
+]
 
 const TYPING_SPEED = 70;
 const DELETING_SPEED = 30;
@@ -27,6 +40,8 @@ export default function RootPage() {
   const [queryIndex, setQueryIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(true);
+  const [isSheetOpen, setIsSheetOpen] = useState(false)
+  const y = useMotionValue(0)
 
   useEffect(() => {
     if (value) {
@@ -70,76 +85,125 @@ export default function RootPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f7f2] text-neutral-900 dark:bg-black dark:text-white">
-      <div className="mx-auto flex min-h-screen max-w-6xl flex-col px-4 py-10">
-        <header className="flex items-center justify-between">
-          <div className="text-lg font-bold tracking-tight">ParsGPT</div>
-          <button
-            onClick={handleStart}
-            className="rounded-full border border-neutral-300 bg-white px-5 py-2 text-sm font-medium transition hover:bg-neutral-100 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
+    <div className="h-screen grid grid-rows-[20px_1fr_20px] items-center justify-items-center gap-5" dir="auto">
+      <header className="flex items-center justify-between h-14 w-full sticky top-1.5 px-3.5 sm:px-14 sm:pt-12 pt-safe-20 z-40">
+        <Link href="/" className="w-9 aspect-square ms-1">
+          <Image
+            className="size-9 scale-[135%] hover:scale-125 active:scale-110 transition-transform"
+            src="/logo.png"
+            alt={`${websiteName} logo`}
+            width={180}
+            height={38}
+            priority
+          />
+        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/chat"
+            className="rounded-full transition-colors flex items-center justify-center text-white dark:text-black bg-[#9138C9] gap-2 hover:bg-[#9138C9]/75 active:bg-[#9138C9]/75 font-medium text-xs sm:text-sm h-9 px-4 sm:w-auto"
           >
             شروع گفتگو
-          </button>
-        </header>
+          </Link>
+        </div>
+      </header>
 
-        <main className="mt-16 grid gap-12 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="space-y-6">
-            <h1 className="text-4xl font-black leading-tight md:text-6xl">
-              دستیار فارسی‌زبان شما برای پاسخ سریع و دقیق
-            </h1>
-            <p className="max-w-xl text-sm text-neutral-700 md:text-base dark:text-white/80">
-              تجربه‌ای شبیه Dadnoos با تمرکز روی گفتگوهای فارسی. ورود تنها با شماره موبایل و
-              بدون نیاز به نام کاربری.
-            </p>
+      <div className="px-3 sm:p-20 w-full overflow-hidden">
+        <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start max-w-fit mx-auto">
+          <h1 className="text-6xl md:text-8xl font-black">{websiteName}</h1>
+          <ol className="list-inside list-disc text-sm md:text-md text-center sm:text-right">
+            <li className="mb-2 tracking-[-.01em]">{websiteDescription}</li>
+            <li className="tracking-[-.01em]">{websiteTaglines}</li>
+          </ol>
 
-            <div className="flex flex-wrap gap-3">
-              <div className="rounded-full border border-neutral-300 bg-white px-4 py-2 text-xs font-medium text-neutral-700 dark:border-white/10 dark:bg-white/5 dark:text-white/80">
-                احراز هویت با موبایل
-              </div>
-              <div className="rounded-full border border-neutral-300 bg-white px-4 py-2 text-xs font-medium text-neutral-700 dark:border-white/10 dark:bg-white/5 dark:text-white/80">
-                محیط امن و سریع
-              </div>
-              <div className="rounded-full border border-neutral-300 bg-white px-4 py-2 text-xs font-medium text-neutral-700 dark:border-white/10 dark:bg-white/5 dark:text-white/80">
-                طراحی تمپلیت محور
-              </div>
-            </div>
-          </div>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/pricing"
+              className="rounded-full whitespace-nowrap border border-solid border-transparent transition-colors flex items-center justify-center bg-black dark:bg-white text-white dark:text-black gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] active:bg-[#383838] dark:active:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto cursor-pointer"
+            >
+              خرید اشتراک
+            </Link>
 
-          <div className="rounded-3xl border border-neutral-200 bg-white/80 p-6 shadow-sm dark:border-white/10 dark:bg-white/5">
-            <div className="space-y-4">
-              <p className="text-sm font-medium text-neutral-700 dark:text-white/80">
-                یک سوال بپرسید تا شروع کنیم
-              </p>
-              <textarea
-                rows={3}
-                value={value}
-                onChange={(event) => setValue(event.target.value)}
-                placeholder={displayed}
-                className="w-full resize-none rounded-2xl border border-neutral-200 bg-transparent px-4 py-3 text-sm focus:border-neutral-400 focus:outline-none dark:border-white/10 dark:focus:border-white/30"
-              />
-              <button
-                onClick={handleStart}
-                className="flex w-full items-center justify-center gap-2 rounded-2xl bg-black py-3 text-sm font-semibold text-white transition hover:bg-black/80 dark:bg-white dark:text-black dark:hover:bg-white/80"
-              >
-                شروع با ParsGPT
-                <ArrowUpRight className="h-4 w-4" />
-              </button>
-            </div>
+            <Link
+              href="/about"
+              className="rounded-full cursor-pointer whitespace-nowrap border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2]/25 dark:hover:bg-[#1a1a1a] hover:border-transparent active:bg-[#f2f2f2] dark:active:bg-[#1a1a1a] active:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto"
+            >
+              درباره {websiteName}
+            </Link>
           </div>
         </main>
 
-        <section className="mt-16 grid gap-4 text-xs text-neutral-700 md:grid-cols-3 dark:text-white/75">
-          <div className="rounded-2xl border border-neutral-200 bg-white/70 p-4 dark:border-white/10 dark:bg-white/5">
-            پاسخ‌های سریع با تمرکز بر زبان فارسی و زمینه‌های پرکاربرد
-          </div>
-          <div className="rounded-2xl border border-neutral-200 bg-white/70 p-4 dark:border-white/10 dark:bg-white/5">
-            بدون نیاز به نام کاربری یا ایمیل، فقط شماره موبایل
-          </div>
-          <div className="rounded-2xl border border-neutral-200 bg-white/70 p-4 dark:border-white/10 dark:bg-white/5">
-            آماده نصب به‌عنوان PWA روی موبایل و دسکتاپ
+        <section className="flex items-start gap-2 mt-10 max-w-3xl mx-auto">
+          <button
+            onClick={handleStart}
+            disabled={!value.trim()}
+            className="bg-[#9138C9]/75 p-2.5 text-white rounded-full disabled:opacity-25"
+          >
+            <ArrowUp className="size-6" />
+          </button>
+
+          <div className="relative flex items-center size-full dark:bg-[#202020] border-neutral-300 dark:border-0 rounded-3xl border sm:pl-5 shadow-2xs overflow-hidden">
+            <textarea
+              rows={1}
+              value={value}
+              onChange={(event) => setValue(event.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault()
+                  handleStart()
+                }
+              }}
+              placeholder={displayed}
+              className="w-full flex placeholder:py-1 scrollbar scrollbar-textarea bg-transparent px-5 font-medium placeholder:text-neutral-500/75 dark:placeholder:text-white/75 placeholder:text-xs focus:outline-none resize-none py-2.5 sm:py-2.5 text-right"
+            />
           </div>
         </section>
       </div>
+
+      {/* Bottom Button */}
+      <ShinyButton onClick={() => setIsSheetOpen(true)}>
+        مشاهده دستیارها
+      </ShinyButton>
+
+      {/* Bottom Sheet */}
+      <AnimatePresence>
+        {isSheetOpen && (
+          <>
+            <motion.div
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsSheetOpen(false)}
+            />
+
+            <motion.div
+              drag="y"
+              dragConstraints={{ top: 50, bottom: 50 }}
+              dragElastic={0.15}
+              style={{ y }}
+              onDragEnd={(e, info) => {
+                if (info.offset.y > 50) setIsSheetOpen(false);
+              }}
+              initial={{ y: "100%" }}
+              animate={{ y: 50 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+              className="fixed bottom-0 inset-x-0 h-[75vh] md:h-[85vh] bg-white dark:bg-neutral-900 max-w-4xl mx-auto rounded-t-[32px] z-50 shadow-2xl flex flex-col"
+            >
+              <div className="flex justify-center py-3 cursor-grab">
+                <div className="w-12 h-1.5 bg-neutral-400 rounded-full" />
+              </div>
+
+              <div className="flex-1 overflow-y-auto px-6 pb-6">
+                <h2 className="text-lg font-bold sticky top-0 h-12 bg-white dark:bg-neutral-900 flex items-center pb-3 z-20">انتخاب دستیار</h2>
+                <div className="bg-linear-to-b from-white dark:from-neutral-900 h-4 sticky top-12 mb-1" />
+
+                <AssistantsList />
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

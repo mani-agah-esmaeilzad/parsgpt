@@ -155,13 +155,13 @@ export default function SignInPage() {
       {step === 0 && (
         <div className="w-full max-w-md space-y-6 text-center">
           <div className="space-y-2">
-            <h1 className="text-2xl font-bold">به ParsGPT خوش آمدید!</h1>
+            <h1 className="text-2xl font-bold">به ChatPars خوش آمدید!</h1>
             <p className="text-xs text-muted-foreground">
               شماره تلفن همراه خود را وارد کنید تا کد تایید برایتان ارسال شود.
             </p>
           </div>
 
-          <div className="space-y-4 rounded-3xl border border-neutral-200 bg-white/80 p-6 shadow-sm dark:border-white/10 dark:bg-black/30">
+          <div className="space-y-4">
             <div className="relative">
               <input
                 id="phone"
@@ -173,13 +173,13 @@ export default function SignInPage() {
                   setPhone(toEnglishDigits(event.target.value));
                   if (requestError) setRequestError(null);
                 }}
-                className="peer block w-full rounded-2xl border border-neutral-300 bg-transparent px-4 py-3 text-center text-sm focus:border-[#9b956d] focus:outline-none dark:border-neutral-600"
+                className="peer block w-full rounded-3xl border border-neutral-300 bg-transparent px-4 py-3 text-center text-sm focus:border-[#9b956d] focus:outline-none dark:border-neutral-600"
               />
               <label
                 htmlFor="phone"
                 className={cn(
                   "absolute right-4 text-xs text-neutral-700 dark:text-white/70 transition-all duration-200 ease-out",
-                  phone.length ? "-top-2 bg-white px-1 dark:bg-black" : "top-3"
+                  phone.length ? "-top-2 bg-white px-1 dark:bg-black" : "top-3.5"
                 )}
               >
                 شماره موبایل
@@ -190,7 +190,7 @@ export default function SignInPage() {
               type="button"
               disabled={isRequesting || !isValidIranPhone(normalizeIranPhone(phone))}
               onClick={() => requestCode(phone)}
-              className="flex h-12 w-full items-center justify-center rounded-2xl bg-black text-white transition-all hover:bg-black/80 disabled:cursor-not-allowed disabled:bg-black/20 dark:bg-white dark:text-black dark:hover:bg-white/80"
+              className="flex h-12 w-full items-center justify-center rounded-3xl bg-black text-white transition-all hover:bg-black/80 disabled:cursor-not-allowed disabled:bg-black/20 dark:bg-white dark:text-black dark:hover:bg-white/80"
             >
               {isRequesting ? "در حال ارسال..." : "ارسال کد تایید"}
             </button>

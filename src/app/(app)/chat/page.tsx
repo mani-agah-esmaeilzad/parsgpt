@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth/options";
+import { redirect } from "next/navigation";
 import { mapGpt } from "@/lib/gpts";
 import { ChatView } from "@/components/chat/ChatView";
 import type { UiConversation } from "@/types/chat";
@@ -21,7 +22,7 @@ export default async function ChatPage({ searchParams }: ChatPageProps) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.id) {
-    return null;
+    return redirect("/sign-in");
   }
 
   const userId = session.user.id;
@@ -43,9 +44,9 @@ export default async function ChatPage({ searchParams }: ChatPageProps) {
 
   let conversationRecord = conversationId
     ? await prisma.conversation.findFirst({
-        where: { id: conversationId, userId },
-        include: { gpt: true, messages: { orderBy: { createdAt: "asc" } } },
-      })
+      where: { id: conversationId, userId },
+      include: { gpt: true, messages: { orderBy: { createdAt: "asc" } } },
+    })
     : null;
 
   if (!conversationRecord && !isNewChat) {
@@ -62,18 +63,18 @@ export default async function ChatPage({ searchParams }: ChatPageProps) {
 
   const initialConversation: UiConversation | null = conversationRecord
     ? {
-        id: conversationRecord.id,
-        title: conversationRecord.title,
-        gptId: conversationRecord.gptId,
-        updatedAt: conversationRecord.updatedAt.toISOString(),
-        gpt: mapGpt(conversationRecord.gpt),
-        messages: conversationRecord.messages.map((message) => ({
-          id: message.id,
-          role: message.role,
-          content: message.content,
-          createdAt: message.createdAt.toISOString(),
-        })),
-      }
+      id: conversationRecord.id,
+      title: conversationRecord.title,
+      gptId: conversationRecord.gptId,
+      updatedAt: conversationRecord.updatedAt.toISOString(),
+      gpt: mapGpt(conversationRecord.gpt),
+      messages: conversationRecord.messages.map((message) => ({
+        id: message.id,
+        role: message.role,
+        content: message.content,
+        createdAt: message.createdAt.toISOString(),
+      })),
+    }
     : null;
 
   return (

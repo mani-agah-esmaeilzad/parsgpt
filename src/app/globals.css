@@ -4,8 +4,8 @@
 
 @layer base {
   :root {
-    --background: 45 33% 96%;
-    --foreground: 222 47% 12%;
+    --background: white;
+    --foreground: black;
     --card: 0 0% 100%;
     --card-foreground: 222 47% 10%;
     --popover: 0 0% 100%;
@@ -28,8 +28,8 @@
   }
 
   .dark {
-    --background: 240 8% 6%;
-    --foreground: 0 0% 98%;
+    --background: black;
+    --foreground: white;
     --card: 240 8% 9%;
     --card-foreground: 0 0% 98%;
     --popover: 240 8% 8%;
@@ -58,7 +58,20 @@
     direction: rtl;
     font-feature-settings: "rlig" 1, "calt" 1;
     font-family: var(--font-vazirmatn), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI";
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-touch-callout: none;
   }
+}
+
+html,
+body,
+#app {
+  overscroll-behavior-y: none;
+  touch-action: pan-x pan-y;
 }
 
 pre,
@@ -77,19 +90,24 @@ pre * {
 }
 
 @keyframes shake {
+
   0%,
   100% {
     transform: translateX(0);
   }
+
   20% {
     transform: translateX(-2px);
   }
+
   40% {
     transform: translateX(2px);
   }
+
   60% {
     transform: translateX(-2px);
   }
+
   80% {
     transform: translateX(2px);
   }
@@ -97,4 +115,168 @@ pre * {
 
 .shake {
   animation: shake 0.2s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+.katex-display {
+  display: block;
+  overflow-x: auto;
+  direction: ltr;
+  font-size: large;
+}
+
+.katex {
+  overflow-x: auto;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  max-width: 100%;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--muted));
+  border-radius: 999px;
+}
+
+@layer utilities {
+  .-top-safe-10 {
+    top: calc(env(safe-area-inset-top) - 10px);
+  }
+
+  .top-safe {
+    top: env(safe-area-inset-top);
+  }
+
+  .bottom-safe {
+    bottom: env(safe-area-inset-bottom);
+  }
+
+  .top-safe-20 {
+    top: calc(env(safe-area-inset-top) + 20px);
+  }
+
+  .bottom-safe-20 {
+    bottom: calc(env(safe-area-inset-bottom) + 20px);
+  }
+
+  .top-safe-34 {
+    top: calc(env(safe-area-inset-top) + 34px);
+  }
+
+  .bottom-safe-34 {
+    bottom: calc(env(safe-area-inset-bottom) + 34px);
+  }
+
+  .top-safe-44 {
+    top: calc(env(safe-area-inset-top) + 44px);
+  }
+
+  .bottom-safe-44 {
+    bottom: calc(env(safe-area-inset-bottom) + 44px);
+  }
+
+  .top-safe-3\/1 {
+    top: calc(3 * env(safe-area-inset-top));
+  }
+
+  .bottom-safe-3\/1 {
+    bottom: calc(3 *env(safe-area-inset-bottom));
+  }
+
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .pt-safe--20 {
+    padding-top: calc(env(safe-area-inset-top) - 20px);
+  }
+
+  .pb-safe--20 {
+    padding-bottom: calc(env(safe-area-inset-bottom) - 20px);
+  }
+
+  .pt-safe--16 {
+    padding-top: calc(env(safe-area-inset-top) - 16px);
+  }
+
+  .pb-safe--16 {
+    padding-bottom: calc(env(safe-area-inset-bottom) - 16px);
+  }
+
+  .pt-safe-10 {
+    padding-top: calc(env(safe-area-inset-top) + 10px);
+  }
+
+  .pb-safe-10 {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 10px);
+  }
+
+  .pt-safe-20 {
+    padding-top: calc(env(safe-area-inset-top) + 20px);
+  }
+
+  .pb-safe-20 {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
+  }
+
+  .py-safe {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .py-safe-20 {
+    padding-top: calc(env(safe-area-inset-top) + 20px);
+    padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
+  }
+
+  .mt-safe {
+    margin-top: env(safe-area-inset-top);
+  }
+
+  .mb-safe {
+    margin-bottom: env(safe-area-inset-bottom);
+  }
+
+  .mt-safe-20 {
+    margin-top: calc(env(safe-area-inset-top) + 20px);
+  }
+
+  .mb-safe-20 {
+    margin-bottom: calc(env(safe-area-inset-bottom) + 20px);
+  }
+
+  .mt-safe-30 {
+    margin-top: calc(env(safe-area-inset-top) + 30px);
+  }
+
+  .mb-safe-30 {
+    margin-bottom: calc(env(safe-area-inset-bottom) + 30px);
+  }
+
+  .mt-safe-40 {
+    margin-top: calc(env(safe-area-inset-top) + 40px);
+  }
+
+  .mb-safe-40 {
+    margin-bottom: calc(env(safe-area-inset-bottom) + 40px);
+  }
+
+  .my-safe {
+    margin-top: env(safe-area-inset-top);
+    margin-bottom: env(safe-area-inset-bottom);
+  }
+
+  .-mt-safe {
+    margin-top: -env(safe-area-inset-top);
+  }
+
+  .-mb-safe {
+    margin-bottom: -env(safe-area-inset-bottom);
+  }
 }
